@@ -1,0 +1,62 @@
+type BridgeMapping @entity {
+  id: ID!
+  key: Bytes! # bytes32
+  foreignToken: Bytes! # address
+  homeToken: Bytes! # address
+  foreignBridge: Bytes! # address
+  homeBridge: Bytes! # address
+  foreignStartBlock: BigInt
+  homeStartBlock: BigInt
+  blockNumber: BigInt!
+  txHash: Bytes!
+}
+
+type Token @entity {
+  id: ID!
+  address: Bytes!
+  symbol: String
+  name: String
+  decimals: String
+}
+
+type HomeBridgeErcToErc @entity {
+  id: ID!
+  address: Bytes!
+  tokenAddress: Bytes!
+  owner: Bytes
+  validatorContract: Bytes
+  dailyLimit: BigInt
+  maxPerTx: BigInt
+  minPerTx: BigInt
+  homeGasPrice: BigInt
+  requiredBlockConfirmations: BigInt
+  foreignDailyLimit: BigInt
+  foreignMaxPerTx: BigInt
+}
+
+
+type Transfer @entity {
+  id: ID!
+  tx: Bytes!
+}
+
+type UserRequestForSignatureEvent @entity {
+  id: ID!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  recipient: Bytes!
+  value: BigInt!
+  data: Bytes
+  bridgeAddress: Bytes!
+  tokenAddress: String!
+}
+
+type CollectedSignaturesEvent @entity {
+  id: ID!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  authorityResponsibleForRelay: Bytes!
+  messageHash: Bytes!
+  numberOfCollectedSignatures: BigInt!
+  bridgeAddress: Bytes!
+}

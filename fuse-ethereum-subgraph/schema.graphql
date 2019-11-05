@@ -1,0 +1,26 @@
+# import { Address } from '@graphprotocol/graph-ts'
+
+type ForeignBridgeErcToErc @entity {
+  id: ID!
+  address: Bytes!
+  tokenAddress: String
+}
+
+type Token @entity {
+  id: ID!
+  address: Bytes!
+  symbol: String
+  name: String
+  decimals: String
+}
+
+type TransferEvent @entity {
+  id: ID!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  data: Bytes
+  tokenAddress: Bytes
+}

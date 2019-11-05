@@ -1,0 +1,86 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ForeignBridgeFactory
+    network: ropsten
+    source:
+      address: "0xABBf5D8599B2Eb7b4e1D25a1Fd737FF1987655aD"
+      abi: ForeignBridgeFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - ForeignBridgeErcToErc
+      abis:
+        - name: ForeignBridgeFactory
+          file: ./abis/ForeignBridgeFactory.json
+        - name: Token
+          file: ./abis/ERC677BridgeToken.json
+        - name: ForeignBridgeErcToErc
+          file: ./abis/ForeignBridgeErcToErc.json
+      eventHandlers:
+        - event: ForeignBridgeDeployed(indexed address,indexed address,uint256)
+          handler: handleForeignBridgeDeployed
+      file: ./src/mapping.ts
+- kind: ethereum/contract
+  name: ForeignBridgeFactory
+  network: 
+  source:
+    address: "0xABBf5D8599B2Eb7b4e1D25a1Fd737FF1987655aD"
+    abi: ForeignBridgeFactory
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.3
+    language: wasm/assemblyscript
+    entities:
+      - ForeignBridgeErcToErc
+    abis:
+      - name: ForeignBridgeFactory
+        file: ./abis/ForeignBridgeFactory.json
+      - name: Token
+        file: ./abis/ERC677BridgeToken.json
+      - name: ForeignBridgeErcToErc
+        file: ./abis/ForeignBridgeErcToErc.json
+    eventHandlers:
+      - event: ForeignBridgeDeployed(indexed address,indexed address,uint256)
+        handler: handleForeignBridgeDeployed
+    file: ./src/mapping.ts
+templates:
+  - kind: ethereum/contract
+    name: Token
+    network: ropsten
+    source:
+      abi: Token
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/mapping.ts
+      entities:
+        - Token
+      abis:
+        - name: Token
+          file: ./abis/ERC677BridgeToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Transfer(indexed address,indexed address,uint256,bytes)
+          handler: handleTransferWithData
+  # - kind: ethereum/contract
+  #   name: ForeignBridgeErcToErc
+  #   network: ropsten
+  #   source:
+  #     abi: ForeignBridgeErcToErc
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.3
+  #     language: wasm/assemblyscript
+  #     file: ./src/mapping.ts
+  #     entities:
+  #       - ForeignBridgeErcToErc
+  #     abis:
+  #       - name: ForeignBridgeErcToErc
+  #         file: ./abis/ForeignBridgeErcToErc.json
