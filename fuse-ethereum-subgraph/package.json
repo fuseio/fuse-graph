@@ -4,10 +4,12 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ fuseio/fuse",
-    "create-local": "graph create --node http://localhost:8020/ fuseio/fuse",
-    "remove-local": "graph remove --node http://localhost:8020/ fuseio/fuse",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-ropsten"
+    "create:ropsten": "graph create --node http://localhost:8020/ fuseio/fuse-ropsten",
+    "remove:ropsten": "graph remove --node http://localhost:8020/ fuseio/fuse-ropsten",
+    "deploy:ropsten": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-ropsten subgraph.ropsten.yaml",
+    "create:mainnet": "graph create --node http://localhost:8020/ fuseio/fuse-mainnet",
+    "remove:mainnet": "graph remove --node http://localhost:8020/ fuseio/fuse-mainnet",
+    "deploy:mainnet": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-mainnet"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.15.3",

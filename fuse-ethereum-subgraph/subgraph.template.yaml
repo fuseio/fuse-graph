@@ -4,9 +4,9 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ForeignBridgeFactory
-    network: mainnet
+    network: "${ETHEREUM_NETWORK}"
     source:
-      address: "0xaC116929b2baB59D05a1Da99303e7CAEd100ECC9"
+      address: "${FOREIGN_BRIDGE_FACTORY_ADDRESS}"
       abi: ForeignBridgeFactory
     mapping:
       kind: ethereum/events
@@ -28,7 +28,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Token
-    network: mainnet
+    network: ropsten
     source:
       abi: Token
     mapping:
@@ -48,7 +48,7 @@ templates:
           handler: handleTransferWithData
   # - kind: ethereum/contract
   #   name: ForeignBridgeErcToErc
-  #   network: mainnet
+  #   network: ropsten
   #   source:
   #     abi: ForeignBridgeErcToErc
   #   mapping:

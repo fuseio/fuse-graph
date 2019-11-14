@@ -1,31 +1,53 @@
 import {
   BridgeMappingUpdated,
-  EternalOwnershipTransferred
-} from "../generated/BridgeMapper/BridgeMapper"
-import { Token as TokenContract, HomeBridgeErcToErc as HomeBridgeErcToErcContract } from "../generated/templates"
-import { UserRequestForSignature, CollectedSignatures } from "../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
-// import {  } from "../generated/templates/HomeBridgeErcToErc/"
-import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../generated/schema"
-// import { log } from '@graphprotocol/graph-ts'
+} from "../../generated/BridgeMapper/BridgeMapper"
+import {
+  DeployHomeBridgeCall
+} from "../../generated/HomeBridgeFactory/HomeBridgeFactory"
+import {
+  Transfer as TransferWithData,
+  Transfer1 as Transfer
+} from "../../generated/templates/Token/Token"
+import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataSource } from "../../generated/templates"
+import { Token as TokenContract} from "../../generated/templates/Token/Token"
+import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
+import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../../generated/schema"
+import { log } from '@graphprotocol/graph-ts'
 
 export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
   let entity = BridgeMapping.load(event.params.key.toHex())
+  log.info('Recived event leon: {}', [event.block.number.toString()])
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
   if (entity == null) {
     entity = new BridgeMapping(event.params.key.toHex())
-    TokenContract.create(event.params.homeToken)
-    HomeBridgeErcToErcContract.create(event.params.homeBridge)
+    TokenDataSource.create(event.params.homeToken)
+    HomeBridgeErcToErcDataSource.create(event.params.homeBridge)
   }
-
-  const homeToken = new Token(event.params.homeToken.toHexString()) as Token
+  let homeToken = new Token(event.params.homeToken.toHexString()) as Token
   homeToken.address = event.params.homeToken
+  
+  log.info('Binding token  {}', [event.params.homeToken.toHexString()])
+  let tokenContract = TokenContract.bind(event.params.homeToken)
+  log.info('Binding token done {}', [event.params.homeToken.toHexString()])
+  log.info('hahah', [event.block.number.toString()])
+  
+  let callResult = tokenContract.try_symbol()
+  if (callResult.reverted) {
+    log.info('symbol reverted', [])
+  } else {
+    log.info('Success', [])
+    log.info('Token Symbol {}', [callResult.value])
+    homeToken.symbol = callResult.value
+  }
+  homeToken.name= tokenContract.name()
+  homeToken.decimals = tokenContract.decimals()
+
+
   homeToken.save()
 
-  const homeBridge = new HomeBridgeErcToErc(event.params.homeBridge.toHexString())
+  let homeBridge = new HomeBridgeErcToErc(event.params.homeBridge.toHexString())
   homeBridge.address = event.params.homeBridge
   homeBridge.tokenAddress = event.params.homeToken
   homeBridge.save()
@@ -43,45 +65,7 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
 
   // Entities can be written to the store with `.save()`
   entity.save()
-
-
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let bridgeMapper = BridgeMapper.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - bridgeMapper.getBridgeMapperVersion(...)
-  // - bridgeMapper.foreignStartBlockByKey(...)
-  // - bridgeMapper.getAddBridgeMappingHash(...)
-  // - bridgeMapper.isInitialized(...)
-  // - bridgeMapper.foreignBridgeByKey(...)
-  // - bridgeMapper.foreignTokenByKey(...)
-  // - bridgeMapper.hashedTxs(...)
-  // - bridgeMapper.homeBridgeByKey(...)
-  // - bridgeMapper.owner(...)
-  // - bridgeMapper.initialize(...)
-  // - bridgeMapper.homeStartBlockByKey(...)
-  // - bridgeMapper.homeTokenByKey(...)
 }
-
-export function handleEternalOwnershipTransferred(
-  event: EternalOwnershipTransferred
-): void {}
-
-// export function handleTransfer(event: Transfer): void {
-
-// }
 
 export function handleUserRequestForSignature(event: UserRequestForSignature): void {
   let key = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
@@ -119,3 +103,11 @@ export function handleCollectedSignatures(event: CollectedSignatures): void {
 
   entity.save()
 }
+
+// export function handleTransfer(event: Transfer): void {
+//   // const id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+//   log.info('handleTransfer', [])
+//   let id = 
+// }
+
+

@@ -2,15 +2,27 @@
   "name": "fuse-subgraph",
   "license": "MIT",
   "scripts": {
-    "codegen": "graph codegen",
+    "codegen": "npm run codegen:dev",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ fuseio/fuse",
-    "create-local": "graph create --node http://localhost:8020/ fuseio/fuse",
-    "remove-local": "graph remove --node http://localhost:8020/ fuseio/fuse",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse"
+    "create": "npm run create:dev",
+    "remove": "npm run remove:dev",
+    "deploy": "npm run deploy:dev",
+    "redeploy": "npm run remove:dev && npm run create:dev && npm run deploy:dev",
+    "codegen:dev": "graph codegen subgraph.dev.yaml",
+    "create:dev": "graph create --node http://localhost:8020/ fuseio/fuse-dev",
+    "remove:dev": "graph remove --node http://localhost:8020/ fuseio/fuse-dev",
+    "deploy:dev": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-dev subgraph.dev.yaml",
+    "create:qa": "graph create --node http://localhost:8020/ fuseio/fuse-qa",
+    "remove:qa": "graph remove --node http://localhost:8020/ fuseio/fuse-qa",
+    "deploy:qa": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-qa subgraph.qa.yaml",
+    "create:prod": "graph create --node http://localhost:8020/ fuseio/fuse",
+    "remove:prod": "graph remove --node http://localhost:8020/ fuseio/fuse",
+    "deploy:prod": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse subgraph.yaml"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.15.3",
-    "@graphprotocol/graph-ts": "0.15.0"
+    "@graphprotocol/graph-ts": "0.15.0",
+    "inquirer": "^7.0.0",
+    "mustache": "^3.1.0"
   }
 }

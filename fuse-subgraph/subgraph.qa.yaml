@@ -37,7 +37,7 @@ templates:
         - Token
       abis:
         - name: Token
-          file: ./abis/Token.json
+          file: ./abis/BasicToken.json
   - kind: ethereum/contract
     name: HomeBridgeErcToErc
     network: fuse

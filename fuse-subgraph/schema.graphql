@@ -16,7 +16,7 @@ type Token @entity {
   address: Bytes!
   symbol: String
   name: String
-  decimals: String
+  decimals: Int
 }
 
 type HomeBridgeErcToErc @entity {
@@ -59,4 +59,25 @@ type CollectedSignaturesEvent @entity {
   messageHash: Bytes!
   numberOfCollectedSignatures: BigInt!
   bridgeAddress: Bytes!
+}
+
+
+type Wallet @entity {
+  id: ID!
+  address: Bytes!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  owner: Bytes
+  modules: Int
+  implementation: Bytes
+}
+
+type AccountToken @entity {
+  "Concatenation of Token address and user address"
+  id: ID!
+  tokenAddress: Bytes!
+  account: Wallet!
+  txHashes: [Bytes!]!
+  blockNumbers: [BigInt!]!
+  tokenBalance: BigDecimal!
 }
