@@ -11,8 +11,8 @@ import {
 import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataSource } from "../../generated/templates"
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
-import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../../generated/schema"
-import { log } from '@graphprotocol/graph-ts'
+import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent, AccountToken, Account } from "../../generated/schema"
+import { log, Bytes, BigInt } from '@graphprotocol/graph-ts'
 
 export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -28,21 +28,21 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   let homeToken = new Token(event.params.homeToken.toHexString()) as Token
   homeToken.address = event.params.homeToken
   
-  log.info('Binding token  {}', [event.params.homeToken.toHexString()])
-  let tokenContract = TokenContract.bind(event.params.homeToken)
-  log.info('Binding token done {}', [event.params.homeToken.toHexString()])
-  log.info('hahah', [event.block.number.toString()])
+  // log.info('Binding token  {}', [event.params.homeToken.toHexString()])
+  // let tokenContract = TokenContract.bind(event.params.homeToken)
+  // log.info('Binding token done {}', [event.params.homeToken.toHexString()])
+  // log.info('hahah', [event.block.number.toString()])
   
-  let callResult = tokenContract.try_symbol()
-  if (callResult.reverted) {
-    log.info('symbol reverted', [])
-  } else {
-    log.info('Success', [])
-    log.info('Token Symbol {}', [callResult.value])
-    homeToken.symbol = callResult.value
-  }
-  homeToken.name= tokenContract.name()
-  homeToken.decimals = tokenContract.decimals()
+  // let callResult = tokenContract.try_symbol()
+  // if (callResult.reverted) {
+  //   log.info('symbol reverted', [])
+  // } else {
+  //   log.info('Success', [])
+  //   log.info('Token Symbol {}', [callResult.value])
+  //   homeToken.symbol = callResult.value
+  // }
+  // homeToken.name= tokenContract.name()
+  // homeToken.decimals = tokenContract.decimals()
 
 
   homeToken.save()
@@ -104,10 +104,44 @@ export function handleCollectedSignatures(event: CollectedSignatures): void {
   entity.save()
 }
 
-// export function handleTransfer(event: Transfer): void {
-//   // const id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
-//   log.info('handleTransfer', [])
-//   let id = 
-// }
+export function handleTransfer(event: Transfer): void {
+  let tokenAddress = event.transaction.to as Bytes
+  let from = event.params.to
+
+  let accountFromId = event.params.from.toHex()
+  let accountFrom = Account.load(accountFromId)
+  if (accountFrom == null) {
+    let accountFrom = new Account(accountFromId)
+    accountFrom.address = event.params.from
+    accountFrom.save()
+  }
+
+  let fromId = tokenAddress.toHexString() + '_' + from.toHexString()
+  let accountTokenFrom = AccountToken.load(fromId)
+  if (accountTokenFrom == null) {
+    accountTokenFrom = new AccountToken(fromId)
+    accountTokenFrom.tokenAddress = tokenAddress
+    // accountTokenFrom.account = accountFrom.id
+  //   accountTokenFrom.tokenAddress = tokenAddress
+    accountTokenFrom.txHashes = []
+  //   accountTokenFrom.blockNumbers = []
+  }
+  // log.info('accountTokenFrom.txHashes {}', [event.transaction.hash.toHexString()])
+  accountTokenFrom.txHashes.push(event.transaction.hash)
+  // log.info('accountTokenFrom.blockNumbers {}', [event.block.number.toString()])
+  // accountTokenFrom.blockNumbers.push(event.block.number)
+  // accountTokenFrom.tokenBalance = BigInt.fromI32(0)
+  // accountTokenFrom.tokenBalance.minus(event.params.value)
+  accountTokenFrom.save()
+  // accountToken.txHash = event.transaction.hash
+  // accountToken.blockNumber = event.block.number
+  // accountToken.from = event.params.from
+  // accountToken.to = event.params.to
+  // accountToken.value = event.params.value
+  // accountToken.tokenAddress = event.transaction.to as Bytes
+  // accountToken.data = event.params.data
+  // let id = 
+}
+
 
 
