@@ -7,7 +7,7 @@ dataSources:
     name: BridgeMapper
     network: fuse
     source:
-      address: "${BRIDGE_MAPPER_ADDRESS}"
+      address: '{{bridgeMapper}}'
       abi: BridgeMapper
     mapping:
       kind: ethereum/events
@@ -18,10 +18,31 @@ dataSources:
       abis:
         - name: BridgeMapper
           file: ./abis/BridgeMapper.json
+        - name: Token
+          file: ./abis/Token.json
       eventHandlers:
         - event: BridgeMappingUpdated(bytes32,address,address,address,address,uint256,uint256)
           handler: handleBridgeMappingUpdated
       file: ./src/mappings/bridge.ts
+  - kind: ethereum/contract
+    name: WalletFactory
+    network: fuse
+    source:
+      address: '{{walletFactory}}'
+      abi: WalletFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - WalletFactory
+      abis:
+        - name: WalletFactory
+          file: ./abis/WalletFactory.json
+      eventHandlers:
+        - event: WalletCreated(indexed address,indexed address)
+          handler: handleWalletCreated
+      file: ./src/mappings/wallet.ts
 templates:
   - kind: ethereum/contract
     name: Token
@@ -37,7 +58,12 @@ templates:
         - Token
       abis:
         - name: Token
-          file: ./abis/BasicToken.json
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Transfer(indexed address,indexed address,uint256,bytes)
+          handler: handleTransferWithData
   - kind: ethereum/contract
     name: HomeBridgeErcToErc
     network: fuse

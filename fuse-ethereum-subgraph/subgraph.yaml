@@ -4,9 +4,9 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ForeignBridgeFactory
-    network: mainnet
+    network: ropsten
     source:
-      address: "0xaC116929b2baB59D05a1Da99303e7CAEd100ECC9"
+      address: '0xABBf5D8599B2Eb7b4e1D25a1Fd737FF1987655aD'
       abi: ForeignBridgeFactory
     mapping:
       kind: ethereum/events
@@ -28,7 +28,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Token
-    network: mainnet
+    network: ropsten
     source:
       abi: Token
     mapping:
@@ -46,18 +46,3 @@ templates:
           handler: handleTransfer
         - event: Transfer(indexed address,indexed address,uint256,bytes)
           handler: handleTransferWithData
-  # - kind: ethereum/contract
-  #   name: ForeignBridgeErcToErc
-  #   network: mainnet
-  #   source:
-  #     abi: ForeignBridgeErcToErc
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.3
-  #     language: wasm/assemblyscript
-  #     file: ./src/mapping.ts
-  #     entities:
-  #       - ForeignBridgeErcToErc
-  #     abis:
-  #       - name: ForeignBridgeErcToErc
-  #         file: ./abis/ForeignBridgeErcToErc.json
