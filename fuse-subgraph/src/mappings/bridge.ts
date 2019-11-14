@@ -2,9 +2,6 @@ import {
   BridgeMappingUpdated,
 } from "../../generated/BridgeMapper/BridgeMapper"
 import {
-  DeployHomeBridgeCall
-} from "../../generated/HomeBridgeFactory/HomeBridgeFactory"
-import {
   Transfer as TransferWithData,
   Transfer1 as Transfer
 } from "../../generated/templates/Token/Token"
@@ -28,22 +25,12 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   let homeToken = new Token(event.params.homeToken.toHexString()) as Token
   homeToken.address = event.params.homeToken
   
-  // log.info('Binding token  {}', [event.params.homeToken.toHexString()])
-  // let tokenContract = TokenContract.bind(event.params.homeToken)
-  // log.info('Binding token done {}', [event.params.homeToken.toHexString()])
-  // log.info('hahah', [event.block.number.toString()])
+  let tokenContract = TokenContract.bind(event.params.homeToken)
   
-  // let callResult = tokenContract.try_symbol()
-  // if (callResult.reverted) {
-  //   log.info('symbol reverted', [])
-  // } else {
-  //   log.info('Success', [])
-  //   log.info('Token Symbol {}', [callResult.value])
-  //   homeToken.symbol = callResult.value
-  // }
-  // homeToken.name= tokenContract.name()
-  // homeToken.decimals = tokenContract.decimals()
-
+  homeToken.symbol = tokenContract.symbol()
+  homeToken.name= tokenContract.name()
+  homeToken.totalSupply = tokenContract.totalSupply()
+  homeToken.decimals = tokenContract.decimals()
 
   homeToken.save()
 

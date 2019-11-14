@@ -14,9 +14,10 @@ type BridgeMapping @entity {
 type Token @entity {
   id: ID!
   address: Bytes!
-  symbol: String
-  name: String
-  decimals: Int
+  symbol: String!
+  name: String!
+  totalSupply: BigInt!
+  decimals: Int!
 }
 
 type HomeBridgeErcToErc @entity {
