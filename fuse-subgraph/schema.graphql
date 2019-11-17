@@ -77,14 +77,14 @@ type AccountToken @entity {
   "Concatenation of Token address and user address"
   id: ID!
   tokenAddress: Bytes!
-  # account: Account!
+  account: Account!
   txHashes: [Bytes!]!
-  # blockNumbers: [BigInt!]!
-  # tokenBalance: BigInt!
+  blockNumbers: [BigInt!]!
+  balance: BigInt!
 }
 
 type Account @entity {
   id: ID!
   address: Bytes!
-  # tokens: [AccountCToken!]! @derivedFrom(field: "account")
+  tokens: [AccountToken!]! @derivedFrom(field: "account")
 }

@@ -91,44 +91,87 @@ export function handleCollectedSignatures(event: CollectedSignatures): void {
   entity.save()
 }
 
-// export function handleTransfer(event: Transfer): void {
-//   let tokenAddress = event.transaction.to as Bytes
-//   let from = event.params.to
+export function updateAccountToken(
+  accountAddress: Bytes,
+  tokenAddress: Bytes,
+  txHash: Bytes,
+  blockNumber: BigInt
+) : AccountToken {
+  let accountd = accountAddress.toHex()
+  let account = Account.load(accountd)
+  if (account == null) {
+    let account = new Account(accountd)
+    account.address = accountAddress
+    account.save()
+  }
 
-//   let accountFromId = event.params.from.toHex()
-//   let accountFrom = Account.load(accountFromId)
-//   if (accountFrom == null) {
-//     let accountFrom = new Account(accountFromId)
-//     accountFrom.address = event.params.from
-//     accountFrom.save()
-//   }
+  let accountTokenId = tokenAddress.toHexString() + '_' + accountAddress.toHexString()
 
-//   let fromId = tokenAddress.toHexString() + '_' + from.toHexString()
-//   let accountTokenFrom = AccountToken.load(fromId)
-//   if (accountTokenFrom == null) {
-//     accountTokenFrom = new AccountToken(fromId)
-//     accountTokenFrom.tokenAddress = tokenAddress
-//     // accountTokenFrom.account = accountFrom.id
-//   //   accountTokenFrom.tokenAddress = tokenAddress
-//     accountTokenFrom.txHashes = []
-//   //   accountTokenFrom.blockNumbers = []
-//   }
-//   // log.info('accountTokenFrom.txHashes {}', [event.transaction.hash.toHexString()])
-//   accountTokenFrom.txHashes.push(event.transaction.hash)
-//   // log.info('accountTokenFrom.blockNumbers {}', [event.block.number.toString()])
-//   // accountTokenFrom.blockNumbers.push(event.block.number)
-//   // accountTokenFrom.tokenBalance = BigInt.fromI32(0)
-//   // accountTokenFrom.tokenBalance.minus(event.params.value)
-//   // accountTokenFrom.save()
-//   // accountToken.txHash = event.transaction.hash
-//   // accountToken.blockNumber = event.block.number
-//   // accountToken.from = event.params.from
-//   // accountToken.to = event.params.to
-//   // accountToken.value = event.params.value
-//   // accountToken.tokenAddress = event.transaction.to as Bytes
-//   // accountToken.data = event.params.data
-//   // let id = 
-// }
+  let accountToken = AccountToken.load(accountTokenId)
+  if (accountToken == null) {
+    accountToken = new AccountToken(accountTokenId)
+    accountToken.account = accountAddress.toHexString()
+    accountToken.tokenAddress = tokenAddress
 
+    accountToken.balance = BigInt.fromI32(0)
+    accountToken.txHashes = []
+    accountToken.blockNumbers = []
+  }
+  let txHashes = accountToken.txHashes
+  txHashes.push(txHash)
+  accountToken.txHashes = txHashes
 
+  let blockNumbers = accountToken.blockNumbers
+  blockNumbers.push(blockNumber)
+  accountToken.blockNumbers = blockNumbers
+
+  return accountToken as AccountToken
+}
+
+export function handleTransfer(event: Transfer): void {
+  let tokenAddress = event.address
+  
+  let value = event.params.value
+  let fromAccountToken = updateAccountToken(
+    event.params.from,
+    tokenAddress,
+    event.transaction.hash,
+    event.block.number
+  )
+  fromAccountToken.balance = fromAccountToken.balance.minus(value)
+  fromAccountToken.save()
+  
+  let toAccountToken = updateAccountToken(
+    event.params.to,
+    tokenAddress,
+    event.transaction.hash,
+    event.block.number
+  )
+
+  toAccountToken.balance = toAccountToken.balance.plus(value)
+  toAccountToken.save()
+}
+
+export function handleTransferWithData(event: TransferWithData): void {
+  let tokenAddress = event.address
+  let value = event.params.value
+  let fromAccountToken = updateAccountToken(
+    event.params.from,
+    tokenAddress,
+    event.transaction.hash,
+    event.block.number
+  )
+  fromAccountToken.balance = fromAccountToken.balance.minus(value)
+  fromAccountToken.save()
+  
+  let toAccountToken = updateAccountToken(
+    event.params.to,
+    tokenAddress,
+    event.transaction.hash,
+    event.block.number
+  )
+
+  toAccountToken.balance = toAccountToken.balance.plus(value)
+  toAccountToken.save()
+}
 

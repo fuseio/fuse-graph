@@ -62,8 +62,8 @@ templates:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-        # - event: Transfer(indexed address,indexed address,uint256,bytes)
-        #   handler: handleTransferWithData
+        - event: Transfer(indexed address,indexed address,uint256,bytes)
+          handler: handleTransferWithData
   - kind: ethereum/contract
     name: HomeBridgeErcToErc
     network: fuse
