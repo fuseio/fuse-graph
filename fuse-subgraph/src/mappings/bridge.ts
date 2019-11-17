@@ -68,7 +68,7 @@ export function handleUserRequestForSignature(event: UserRequestForSignature): v
   entity.value = event.params.value
   entity.data = event.params.data
   entity.bridgeAddress = event.address
-  entity.tokenAddress = event.transaction.to.toHexString()
+  entity.tokenAddress = event.transaction.to as Bytes
   entity.save()
 
 }
