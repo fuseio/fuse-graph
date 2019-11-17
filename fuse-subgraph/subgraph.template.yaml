@@ -59,11 +59,11 @@ templates:
       abis:
         - name: Token
           file: ./abis/Token.json
-      # eventHandlers:
-      #   - event: Transfer(indexed address,indexed address,uint256)
-      #     handler: handleTransfer
-      #   - event: Transfer(indexed address,indexed address,uint256,bytes)
-      #     handler: handleTransferWithData
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Transfer(indexed address,indexed address,uint256,bytes)
+          handler: handleTransferWithData
   - kind: ethereum/contract
     name: HomeBridgeErcToErc
     network: fuse
