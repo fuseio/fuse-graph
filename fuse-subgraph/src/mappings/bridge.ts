@@ -91,44 +91,44 @@ export function handleCollectedSignatures(event: CollectedSignatures): void {
   entity.save()
 }
 
-export function handleTransfer(event: Transfer): void {
-  let tokenAddress = event.transaction.to as Bytes
-  let from = event.params.to
+// export function handleTransfer(event: Transfer): void {
+//   let tokenAddress = event.transaction.to as Bytes
+//   let from = event.params.to
 
-  let accountFromId = event.params.from.toHex()
-  let accountFrom = Account.load(accountFromId)
-  if (accountFrom == null) {
-    let accountFrom = new Account(accountFromId)
-    accountFrom.address = event.params.from
-    accountFrom.save()
-  }
+//   let accountFromId = event.params.from.toHex()
+//   let accountFrom = Account.load(accountFromId)
+//   if (accountFrom == null) {
+//     let accountFrom = new Account(accountFromId)
+//     accountFrom.address = event.params.from
+//     accountFrom.save()
+//   }
 
-  let fromId = tokenAddress.toHexString() + '_' + from.toHexString()
-  let accountTokenFrom = AccountToken.load(fromId)
-  if (accountTokenFrom == null) {
-    accountTokenFrom = new AccountToken(fromId)
-    accountTokenFrom.tokenAddress = tokenAddress
-    // accountTokenFrom.account = accountFrom.id
-  //   accountTokenFrom.tokenAddress = tokenAddress
-    accountTokenFrom.txHashes = []
-  //   accountTokenFrom.blockNumbers = []
-  }
-  // log.info('accountTokenFrom.txHashes {}', [event.transaction.hash.toHexString()])
-  accountTokenFrom.txHashes.push(event.transaction.hash)
-  // log.info('accountTokenFrom.blockNumbers {}', [event.block.number.toString()])
-  // accountTokenFrom.blockNumbers.push(event.block.number)
-  // accountTokenFrom.tokenBalance = BigInt.fromI32(0)
-  // accountTokenFrom.tokenBalance.minus(event.params.value)
-  accountTokenFrom.save()
-  // accountToken.txHash = event.transaction.hash
-  // accountToken.blockNumber = event.block.number
-  // accountToken.from = event.params.from
-  // accountToken.to = event.params.to
-  // accountToken.value = event.params.value
-  // accountToken.tokenAddress = event.transaction.to as Bytes
-  // accountToken.data = event.params.data
-  // let id = 
-}
+//   let fromId = tokenAddress.toHexString() + '_' + from.toHexString()
+//   let accountTokenFrom = AccountToken.load(fromId)
+//   if (accountTokenFrom == null) {
+//     accountTokenFrom = new AccountToken(fromId)
+//     accountTokenFrom.tokenAddress = tokenAddress
+//     // accountTokenFrom.account = accountFrom.id
+//   //   accountTokenFrom.tokenAddress = tokenAddress
+//     accountTokenFrom.txHashes = []
+//   //   accountTokenFrom.blockNumbers = []
+//   }
+//   // log.info('accountTokenFrom.txHashes {}', [event.transaction.hash.toHexString()])
+//   accountTokenFrom.txHashes.push(event.transaction.hash)
+//   // log.info('accountTokenFrom.blockNumbers {}', [event.block.number.toString()])
+//   // accountTokenFrom.blockNumbers.push(event.block.number)
+//   // accountTokenFrom.tokenBalance = BigInt.fromI32(0)
+//   // accountTokenFrom.tokenBalance.minus(event.params.value)
+//   // accountTokenFrom.save()
+//   // accountToken.txHash = event.transaction.hash
+//   // accountToken.blockNumber = event.block.number
+//   // accountToken.from = event.params.from
+//   // accountToken.to = event.params.to
+//   // accountToken.value = event.params.value
+//   // accountToken.tokenAddress = event.transaction.to as Bytes
+//   // accountToken.data = event.params.data
+//   // let id = 
+// }
 
 
 
