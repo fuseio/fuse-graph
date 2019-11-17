@@ -62,3 +62,7 @@ typings/
 
 build
 generated
+
+
+# Should be generated from the subgraph.template.yaml
+subgraph.yaml
