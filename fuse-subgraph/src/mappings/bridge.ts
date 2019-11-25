@@ -214,6 +214,6 @@ export function handleTransferWithData(event: TransferWithData): void {
 
 export function handleTransferManagerSet(event: TransferManagerSet): void {
   let token = Token.load(event.address.toHexString())
-  token.transferManager = event.params.transferManager
+  token.communityAddress = event.params.transferManager
   token.save()
 }

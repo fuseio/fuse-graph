@@ -18,7 +18,7 @@ type Token @entity {
   name: String!
   totalSupply: BigInt!
   decimals: Int!
-  transferManager: Bytes
+  communityAddress: Bytes
 }
 
 type HomeBridgeErcToErc @entity {
