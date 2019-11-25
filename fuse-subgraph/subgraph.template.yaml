@@ -26,24 +26,6 @@ dataSources:
           handler: handleCommunityCreated
       file: ./src/mappings/entities.ts
 templates:
-  # - kind: ethereum/contract
-  #   name: Community
-  #   network: fuse
-  #   source:
-  #     abi: Community
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.3
-  #     language: wasm/assemblyscript
-  #     file: ./src/mappings/entities.ts
-  #     entities:
-  #       - Entity
-  #     abis:
-  #       - name: Community
-  #         file: ./abis/CommunityWithEvents.json
-  #     eventHandlers:
-  #       - event: EntityAdded(indexed address,bytes32)
-  #         handler: handleEntityAdded
   - kind: ethereum/contract
     name: EntitiesList
     network: fuse
