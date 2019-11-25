@@ -28,7 +28,7 @@ export function handleEntityAdded(event: EntityAdded): void {
   let id = event.address.toHexString() + '_' + event.params.account.toHexString()
   let entity = new CommunityEntity(id)
   entity.address = event.params.account
-  entity.entitiesList = event.address
+  entity.entitiesList = event.address.toHexString()
   entity.roles = event.params.roles
   entity.type = 'unkown'
   entity.save()

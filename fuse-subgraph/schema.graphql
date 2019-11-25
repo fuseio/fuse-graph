@@ -99,13 +99,14 @@ type Community @entity {
   id: ID!
   address: Bytes!
   name: String!
-  entitiesList: EntitiesList! @derivedFrom(field: "address")
+  entitiesList: EntitiesList!
 }
 
 type EntitiesList @entity {
   id: ID!
   address: Bytes!
-  community: Community!
+  communityEntities: [CommunityEntity!]! @derivedFrom(field: "entitiesList")
+  # community: Community!
 }
 
 type CommunityEntity @entity {
@@ -115,5 +116,5 @@ type CommunityEntity @entity {
   isAdmin: Boolean
   isApproved: Boolean
   roles: Bytes!
-  entitiesList: Bytes!
+  entitiesList: EntitiesList!
 }
