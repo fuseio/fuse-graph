@@ -3,7 +3,8 @@ import {
 } from "../../generated/BridgeMapper/BridgeMapper"
 import {
   Transfer as TransferWithData,
-  Transfer1 as Transfer
+  Transfer1 as Transfer,
+  TransferManagerSet
 } from "../../generated/templates/Token/Token"
 import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataSource } from "../../generated/templates"
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
@@ -211,3 +212,8 @@ export function handleTransferWithData(event: TransferWithData): void {
   toAccountToken.save()
 }
 
+export function handleTransferManagerSet(event: TransferManagerSet): void {
+  let token = Token.load(event.address.toHexString())
+  token.communityAddress = event.params.transferManager
+  token.save()
+}
