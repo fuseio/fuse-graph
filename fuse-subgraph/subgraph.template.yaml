@@ -4,86 +4,61 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: BridgeMapper
+    name: CommunityFactory
     network: fuse
     source:
-      address: '{{bridgeMapper}}'
-      abi: BridgeMapper
+      address: '{{communityFactory}}'
+      abi: CommunityFactory
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
-        - BridgeMappingUpdated
+        - CommunityFactory
+        - EntitiesList
       abis:
-        - name: BridgeMapper
-          file: ./abis/BridgeMapper.json
-        - name: Token
-          file: ./abis/Token.json
+        - name: CommunityFactory
+          file: ./abis/CommunityFactory.json
+        - name: Community
+          file: ./abis/CommunityWithEvents.json
       eventHandlers:
-        - event: BridgeMappingUpdated(bytes32,address,address,address,address,uint256,uint256)
-          handler: handleBridgeMappingUpdated
-      file: ./src/mappings/bridge.ts
-  - kind: ethereum/contract
-    name: WalletFactory
-    network: fuse
-    source:
-      address: '{{walletFactory}}'
-      abi: WalletFactory
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      entities:
-        - WalletFactory
-      abis:
-        - name: WalletFactory
-          file: ./abis/WalletFactory.json
-      eventHandlers:
-        - event: WalletCreated(indexed address,indexed address)
-          handler: handleWalletCreated
-      file: ./src/mappings/wallet.ts
+        - event: CommunityCreated(indexed address,string)
+          handler: handleCommunityCreated
+      file: ./src/mappings/entities.ts
 templates:
+  # - kind: ethereum/contract
+  #   name: Community
+  #   network: fuse
+  #   source:
+  #     abi: Community
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.3
+  #     language: wasm/assemblyscript
+  #     file: ./src/mappings/entities.ts
+  #     entities:
+  #       - Entity
+  #     abis:
+  #       - name: Community
+  #         file: ./abis/CommunityWithEvents.json
+  #     eventHandlers:
+  #       - event: EntityAdded(indexed address,bytes32)
+  #         handler: handleEntityAdded
   - kind: ethereum/contract
-    name: Token
+    name: EntitiesList
     network: fuse
     source:
-      abi: Token
+      abi: EntitiesList
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
-      file: ./src/mappings/bridge.ts
+      file: ./src/mappings/entities.ts
       entities:
-        - Token
-        - TransferEvent
+        - Entity
       abis:
-        - name: Token
-          file: ./abis/Token.json
+        - name: EntitiesList
+          file: ./abis/EntitiesList.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-        - event: Transfer(indexed address,indexed address,uint256,bytes)
-          handler: handleTransferWithData
-        - event: TransferManagerSet(address)
-          handler: handleTransferManagerSet
-  - kind: ethereum/contract
-    name: HomeBridgeErcToErc
-    network: fuse
-    source:
-      abi: HomeBridgeErcToErc
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      file: ./src/mappings/bridge.ts
-      entities:
-        - HomeBridgeErcToErc
-      abis:
-        - name: HomeBridgeErcToErc
-          file: ./abis/HomeBridgeErcToErc.json
-      eventHandlers:
-        - event: UserRequestForSignature(address,uint256,bytes)
-          handler: handleUserRequestForSignature
-        - event: CollectedSignatures(address,bytes32,uint256)
-          handler: handleCollectedSignatures
+        - event: EntityAdded(indexed address,bytes32)
+          handler: handleEntityAdded
