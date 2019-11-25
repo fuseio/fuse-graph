@@ -35,12 +35,6 @@ type HomeBridgeErcToErc @entity {
   foreignMaxPerTx: BigInt
 }
 
-
-type Transfer @entity {
-  id: ID!
-  tx: Bytes!
-}
-
 type UserRequestForSignatureEvent @entity {
   id: ID!
   txHash: Bytes!
@@ -87,4 +81,15 @@ type Account @entity {
   id: ID!
   address: Bytes!
   tokens: [AccountToken!]! @derivedFrom(field: "account")
+}
+
+type TransferEvent @entity {
+  id: ID!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  data: Bytes
+  tokenAddress: Bytes
 }

@@ -8,7 +8,7 @@ import {
 import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataSource } from "../../generated/templates"
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
-import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent, AccountToken, Account } from "../../generated/schema"
+import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent, AccountToken, Account, TransferEvent } from "../../generated/schema"
 import { log, Bytes, BigInt } from '@graphprotocol/graph-ts'
 
 export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
@@ -128,7 +128,24 @@ export function updateAccountToken(
   return accountToken as AccountToken
 }
 
+function addTransferEvent(event: Transfer): void {
+  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let entity = TransferEvent.load(id)
+  if (entity == null) {
+    entity = new TransferEvent(id)
+  }
+  entity.txHash = event.transaction.hash
+  entity.blockNumber = event.block.number
+  entity.from = event.params.from
+  entity.to = event.params.to
+  entity.value = event.params.value
+  entity.tokenAddress = event.transaction.to as Bytes
+  entity.save()
+}
+
 export function handleTransfer(event: Transfer): void {
+  addTransferEvent(event)
+
   let tokenAddress = event.address
   
   let value = event.params.value
@@ -152,7 +169,26 @@ export function handleTransfer(event: Transfer): void {
   toAccountToken.save()
 }
 
+function addTransferWithData(event: TransferWithData): void {
+  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let entity = TransferEvent.load(id)
+  if (entity == null) {
+    entity = new TransferEvent(id)
+  }
+  entity.txHash = event.transaction.hash
+  entity.blockNumber = event.block.number
+  entity.from = event.params.from
+  entity.to = event.params.to
+  entity.value = event.params.value
+  entity.tokenAddress = event.transaction.to as Bytes
+  entity.data = event.params.data
+
+  entity.save()
+}
+
 export function handleTransferWithData(event: TransferWithData): void {
+  addTransferWithData(event)
+
   let tokenAddress = event.address
   let value = event.params.value
   let fromAccountToken = updateAccountToken(
