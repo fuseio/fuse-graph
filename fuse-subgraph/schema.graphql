@@ -44,7 +44,7 @@ type UserRequestForSignatureEvent @entity {
   value: BigInt!
   data: Bytes
   bridgeAddress: Bytes!
-  tokenAddress: String!
+  tokenAddress: Bytes!
 }
 
 type CollectedSignaturesEvent @entity {

@@ -47,7 +47,7 @@ export function handleTransfer(event: Transfer): void {
   entity.from = event.params.from
   entity.to = event.params.to
   entity.value = event.params.value
-  entity.tokenAddress = event.transaction.to as Bytes
+  entity.tokenAddress = event.address
   entity.save()
 }
 
@@ -62,7 +62,7 @@ export function handleTransferWithData(event: TransferWithData): void {
   entity.from = event.params.from
   entity.to = event.params.to
   entity.value = event.params.value
-  entity.tokenAddress = event.transaction.to as Bytes
+  entity.tokenAddress = event.address
   entity.data = event.params.data
 
   entity.save()
