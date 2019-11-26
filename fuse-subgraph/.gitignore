@@ -66,3 +66,5 @@ generated
 
 # Should be generated from the subgraph.template.yaml
 subgraph.yaml
+
+.DS_Store

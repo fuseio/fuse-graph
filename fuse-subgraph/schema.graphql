@@ -94,3 +94,27 @@ type TransferEvent @entity {
   data: Bytes
   tokenAddress: Bytes
 }
+
+type Community @entity {
+  id: ID!
+  address: Bytes!
+  name: String!
+  entitiesList: EntitiesList!
+  # tokens: [Token!]! @derivedFrom(field: "community")
+}
+
+type EntitiesList @entity {
+  id: ID!
+  address: Bytes!
+  communityEntities: [CommunityEntity!]! @derivedFrom(field: "entitiesList")
+}
+
+type CommunityEntity @entity {
+  id: ID!
+  address: Bytes!
+  type: String!
+  isAdmin: Boolean
+  isApproved: Boolean
+  roles: Bytes!
+  entitiesList: EntitiesList!
+}

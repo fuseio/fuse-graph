@@ -43,6 +43,28 @@ dataSources:
         - event: WalletCreated(indexed address,indexed address)
           handler: handleWalletCreated
       file: ./src/mappings/wallet.ts
+  - kind: ethereum/contract
+    name: CommunityFactory
+    network: fuse
+    source:
+      address: '{{communityFactory}}'
+      abi: CommunityFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - CommunityFactory
+        - EntitiesList
+      abis:
+        - name: CommunityFactory
+          file: ./abis/CommunityFactory.json
+        - name: Community
+          file: ./abis/CommunityWithEvents.json
+      eventHandlers:
+        - event: CommunityCreated(indexed address,string)
+          handler: handleCommunityCreated
+      file: ./src/mappings/entities.ts
 templates:
   - kind: ethereum/contract
     name: Token
@@ -87,3 +109,21 @@ templates:
           handler: handleUserRequestForSignature
         - event: CollectedSignatures(address,bytes32,uint256)
           handler: handleCollectedSignatures
+  - kind: ethereum/contract
+    name: EntitiesList
+    network: fuse
+    source:
+      abi: EntitiesList
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/mappings/entities.ts
+      entities:
+        - Entity
+      abis:
+        - name: EntitiesList
+          file: ./abis/EntitiesList.json
+      eventHandlers:
+        - event: EntityAdded(indexed address,bytes32)
+          handler: handleEntityAdded
