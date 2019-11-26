@@ -100,13 +100,13 @@ type Community @entity {
   address: Bytes!
   name: String!
   entitiesList: EntitiesList!
+  # tokens: [Token!]! @derivedFrom(field: "community")
 }
 
 type EntitiesList @entity {
   id: ID!
   address: Bytes!
   communityEntities: [CommunityEntity!]! @derivedFrom(field: "entitiesList")
-  # community: Community!
 }
 
 type CommunityEntity @entity {

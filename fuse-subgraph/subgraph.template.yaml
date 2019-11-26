@@ -78,6 +78,7 @@ templates:
       file: ./src/mappings/bridge.ts
       entities:
         - Token
+        - TransferEvent
       abis:
         - name: Token
           file: ./abis/Token.json
@@ -86,6 +87,8 @@ templates:
           handler: handleTransfer
         - event: Transfer(indexed address,indexed address,uint256,bytes)
           handler: handleTransferWithData
+        - event: TransferManagerSet(address)
+          handler: handleTransferManagerSet
   - kind: ethereum/contract
     name: HomeBridgeErcToErc
     network: fuse
