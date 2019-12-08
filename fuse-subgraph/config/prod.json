@@ -1,5 +1,6 @@
 {
-  "bridgeMapper": "0x3E0d9311E14b8Ba767b8917F3d06D1C178893E66",
+  "ropstenBridgeMapper": "0x3E0d9311E14b8Ba767b8917F3d06D1C178893E66",
+  "mainnetBridgeMapper": "0x89b98bB511A41FeF73b388cF8C052221f42cd44f",
   "walletFactory": "0x841C3F8138315EB5008dB8BB1457B58a8bF53bac",
   "communityFactory": "0x0F7bD61dE50Aa24A4c4C6bd2111E54Cae92bf33a"
 }

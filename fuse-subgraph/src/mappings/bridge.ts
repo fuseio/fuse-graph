@@ -1,22 +1,24 @@
 import {
   BridgeMappingUpdated,
 } from "../../generated/BridgeMapper/BridgeMapper"
-import {
-  Transfer as TransferWithData,
-  Transfer1 as Transfer,
-  TransferManagerSet
-} from "../../generated/templates/Token/Token"
 import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataSource } from "../../generated/templates"
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
-import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent, AccountToken, Account, TransferEvent } from "../../generated/schema"
-import { log, Bytes, BigInt } from '@graphprotocol/graph-ts'
+import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../../generated/schema"
+import { log, Bytes } from '@graphprotocol/graph-ts'
 
-export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
+export function handleRopstenBridgeMappingUpdated(event: BridgeMappingUpdated): void {
+  handleBridgeMappingUpdated(event, 'ropsten')
+}
+
+export function handleMainnetBridgeMappingUpdated(event: BridgeMappingUpdated): void {
+  handleBridgeMappingUpdated(event, 'mainnet')
+}
+
+export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNetwork: String): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
   let entity = BridgeMapping.load(event.params.key.toHex())
-  log.info('Recived event leon: {}', [event.block.number.toString()])
 
   if (entity == null) {
     entity = new BridgeMapping(event.params.key.toHex())
@@ -32,6 +34,7 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   homeToken.name= tokenContract.name()
   homeToken.totalSupply = tokenContract.totalSupply()
   homeToken.decimals = tokenContract.decimals()
+  homeToken.originNetwork = originNetwork
 
   homeToken.save()
 
@@ -90,130 +93,4 @@ export function handleCollectedSignatures(event: CollectedSignatures): void {
   entity.bridgeAddress = event.address
 
   entity.save()
-}
-
-export function updateAccountToken(
-  accountAddress: Bytes,
-  tokenAddress: Bytes,
-  txHash: Bytes,
-  blockNumber: BigInt
-) : AccountToken {
-  let accountd = accountAddress.toHex()
-  let account = Account.load(accountd)
-  if (account == null) {
-    let account = new Account(accountd)
-    account.address = accountAddress
-    account.save()
-  }
-
-  let accountTokenId = tokenAddress.toHexString() + '_' + accountAddress.toHexString()
-
-  let accountToken = AccountToken.load(accountTokenId)
-  if (accountToken == null) {
-    accountToken = new AccountToken(accountTokenId)
-    accountToken.account = accountAddress.toHexString()
-    accountToken.tokenAddress = tokenAddress
-
-    accountToken.balance = BigInt.fromI32(0)
-    accountToken.txHashes = []
-    accountToken.blockNumbers = []
-  }
-  let txHashes = accountToken.txHashes
-  txHashes.push(txHash)
-  accountToken.txHashes = txHashes
-
-  let blockNumbers = accountToken.blockNumbers
-  blockNumbers.push(blockNumber)
-  accountToken.blockNumbers = blockNumbers
-
-  return accountToken as AccountToken
-}
-
-function addTransferEvent(event: Transfer): void {
-  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
-  let entity = TransferEvent.load(id)
-  if (entity == null) {
-    entity = new TransferEvent(id)
-  }
-  entity.txHash = event.transaction.hash
-  entity.blockNumber = event.block.number
-  entity.from = event.params.from
-  entity.to = event.params.to
-  entity.value = event.params.value
-  entity.tokenAddress = event.transaction.to as Bytes
-  entity.save()
-}
-
-export function handleTransfer(event: Transfer): void {
-  addTransferEvent(event)
-
-  let tokenAddress = event.address
-  
-  let value = event.params.value
-  let fromAccountToken = updateAccountToken(
-    event.params.from,
-    tokenAddress,
-    event.transaction.hash,
-    event.block.number
-  )
-  fromAccountToken.balance = fromAccountToken.balance.minus(value)
-  fromAccountToken.save()
-  
-  let toAccountToken = updateAccountToken(
-    event.params.to,
-    tokenAddress,
-    event.transaction.hash,
-    event.block.number
-  )
-
-  toAccountToken.balance = toAccountToken.balance.plus(value)
-  toAccountToken.save()
-}
-
-function addTransferWithData(event: TransferWithData): void {
-  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
-  let entity = TransferEvent.load(id)
-  if (entity == null) {
-    entity = new TransferEvent(id)
-  }
-  entity.txHash = event.transaction.hash
-  entity.blockNumber = event.block.number
-  entity.from = event.params.from
-  entity.to = event.params.to
-  entity.value = event.params.value
-  entity.tokenAddress = event.transaction.to as Bytes
-  entity.data = event.params.data
-
-  entity.save()
-}
-
-export function handleTransferWithData(event: TransferWithData): void {
-  addTransferWithData(event)
-
-  let tokenAddress = event.address
-  let value = event.params.value
-  let fromAccountToken = updateAccountToken(
-    event.params.from,
-    tokenAddress,
-    event.transaction.hash,
-    event.block.number
-  )
-  fromAccountToken.balance = fromAccountToken.balance.minus(value)
-  fromAccountToken.save()
-  
-  let toAccountToken = updateAccountToken(
-    event.params.to,
-    tokenAddress,
-    event.transaction.hash,
-    event.block.number
-  )
-
-  toAccountToken.balance = toAccountToken.balance.plus(value)
-  toAccountToken.save()
-}
-
-export function handleTransferManagerSet(event: TransferManagerSet): void {
-  let token = Token.load(event.address.toHexString())
-  token.communityAddress = event.params.transferManager
-  token.save()
 }
