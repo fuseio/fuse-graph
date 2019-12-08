@@ -4,10 +4,10 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: BridgeMapper
+    name: MainnetBridgeMapper
     network: fuse
     source:
-      address: '{{bridgeMapper}}'
+      address: '{{mainnetBridgeMapper}}'
       abi: BridgeMapper
     mapping:
       kind: ethereum/events
@@ -22,7 +22,28 @@ dataSources:
           file: ./abis/Token.json
       eventHandlers:
         - event: BridgeMappingUpdated(bytes32,address,address,address,address,uint256,uint256)
-          handler: handleBridgeMappingUpdated
+          handler: handleMainnetBridgeMappingUpdated
+      file: ./src/mappings/bridge.ts
+  - kind: ethereum/contract
+    name: RopstenBridgeMapper
+    network: fuse
+    source:
+      address: '{{ropstenBridgeMapper}}'
+      abi: BridgeMapper
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - BridgeMappingUpdated
+      abis:
+        - name: BridgeMapper
+          file: ./abis/BridgeMapper.json
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: BridgeMappingUpdated(bytes32,address,address,address,address,uint256,uint256)
+          handler: handleRopstenBridgeMappingUpdated
       file: ./src/mappings/bridge.ts
   - kind: ethereum/contract
     name: WalletFactory

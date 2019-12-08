@@ -7,11 +7,18 @@ import { UserRequestForSignature, CollectedSignatures } from "../../generated/te
 import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../../generated/schema"
 import { log, Bytes } from '@graphprotocol/graph-ts'
 
-export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
+export function handleRopstenBridgeMappingUpdated(event: BridgeMappingUpdated): void {
+  handleBridgeMappingUpdated(event, 'ropsten')
+}
+
+export function handleMainnetBridgeMappingUpdated(event: BridgeMappingUpdated): void {
+  handleBridgeMappingUpdated(event, 'mainnet')
+}
+
+export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNetwork: String): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
   let entity = BridgeMapping.load(event.params.key.toHex())
-  log.info('Recived event leon: {}', [event.block.number.toString()])
 
   if (entity == null) {
     entity = new BridgeMapping(event.params.key.toHex())
@@ -27,6 +34,7 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   homeToken.name= tokenContract.name()
   homeToken.totalSupply = tokenContract.totalSupply()
   homeToken.decimals = tokenContract.decimals()
+  homeToken.originNetwork = originNetwork
 
   homeToken.save()
 
