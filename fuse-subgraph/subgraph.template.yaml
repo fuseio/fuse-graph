@@ -148,3 +148,7 @@ templates:
       eventHandlers:
         - event: EntityAdded(indexed address,bytes32)
           handler: handleEntityAdded
+        - event: EntityRemoved(indexed address)
+          handler: handleEntityRemoved
+        - event: EntityRolesUpdated(indexed address,bytes32)
+          handler: handleEntityRolesUpdated

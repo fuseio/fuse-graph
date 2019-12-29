@@ -3,9 +3,10 @@ import {
 } from '../../generated/CommunityFactory/CommunityFactory'
 import { Community as CommunityContract } from '../../generated/CommunityFactory/Community'
 import { Community, CommunityEntity, EntitiesList } from '../../generated/schema'
-import { EntityAdded } from '../../generated/templates/EntitiesList/EntitiesList'
+import { EntityAdded, EntityRemoved, EntityRolesUpdated } from '../../generated/templates/EntitiesList/EntitiesList'
 import { EntitiesList as EntitiesListDataSource } from '../../generated/templates'
 import { Address } from '@graphprotocol/graph-ts'
+import { store } from '@graphprotocol/graph-ts'
 
 export function handleCommunityCreated(event: CommunityCreated): void {
   let community = new Community(event.params.community.toHexString())
@@ -33,3 +34,20 @@ export function handleEntityAdded(event: EntityAdded): void {
   entity.type = 'unkown'
   entity.save()
 }
+
+
+export function handleEntityRemoved(event: EntityRemoved): void {
+  let id = event.address.toHexString() + '_' + event.params.account.toHexString()
+  store.remove('CommunityEntity', id)
+}
+
+export function handleEntityRolesUpdated(event: EntityRolesUpdated): void {
+  let id = event.address.toHexString() + '_' + event.params.account.toHexString()
+
+  let entity = CommunityEntity.load(id);
+  if (entity) {
+    entity.roles = event.params.roles
+    entity.save()
+  }
+}
+
