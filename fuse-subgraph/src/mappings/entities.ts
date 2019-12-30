@@ -5,7 +5,7 @@ import { Community as CommunityContract } from '../../generated/CommunityFactory
 import { Community, CommunityEntity, EntitiesList } from '../../generated/schema'
 import { EntityAdded, EntityRemoved, EntityRolesUpdated } from '../../generated/templates/EntitiesList/EntitiesList'
 import { EntitiesList as EntitiesListDataSource } from '../../generated/templates'
-import { Address } from '@graphprotocol/graph-ts'
+import { Address, Bytes } from '@graphprotocol/graph-ts'
 import { store } from '@graphprotocol/graph-ts'
 
 export function handleCommunityCreated(event: CommunityCreated): void {
@@ -25,13 +25,60 @@ export function handleCommunityCreated(event: CommunityCreated): void {
   EntitiesListDataSource.create(entitiesList.address as Address)
 }
 
+
+function deriveRoles(entity: CommunityEntity): void {
+  let roles = entity.roles
+  let mask = new Bytes(1)
+
+  let byteIndex = roles.length - 1
+  // user mask
+  mask[0] = 1
+  if ((roles[byteIndex] & mask[0]) == mask[0]) {
+    entity.isUser = true
+  } else {
+    entity.isUser = false
+  }
+
+  // admin mask
+  mask[0] = 2
+  if ((roles[byteIndex] & mask[0]) == mask[0]) {
+    entity.isAdmin = true  
+  } else {
+    entity.isAdmin = false
+  }
+
+  // approved user mask
+  mask[0] = 4
+  if ((roles[byteIndex] & mask[0]) == mask[0]) {
+    entity.isApproved = true  
+  } else {
+    entity.isApproved = false
+  }
+
+    // busineess mask
+  mask[0] = 8
+  if ((roles[byteIndex] & mask[0]) == mask[0]) {
+    entity.isBusiness = true
+  } else {
+    entity.isBusiness = false
+  }
+
+}
 export function handleEntityAdded(event: EntityAdded): void {
   let id = event.address.toHexString() + '_' + event.params.account.toHexString()
   let entity = new CommunityEntity(id)
   entity.address = event.params.account
   entity.entitiesList = event.address.toHexString()
+  // let roles = event.params.roles
+  // let mask = new Bytes(1)
+  // let mask: i32 = 1
+  // mask[0] = 1
+  // if ((roles[0] & mask) == mask) {
+  //   entity.isBusiness = true
+  // }
   entity.roles = event.params.roles
-  entity.type = 'unkown'
+  
+  deriveRoles(entity)
   entity.save()
 }
 
@@ -47,6 +94,7 @@ export function handleEntityRolesUpdated(event: EntityRolesUpdated): void {
   let entity = CommunityEntity.load(id);
   if (entity) {
     entity.roles = event.params.roles
+    deriveRoles(entity as CommunityEntity)
     entity.save()
   }
 }

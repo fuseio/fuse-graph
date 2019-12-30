@@ -113,9 +113,10 @@ type EntitiesList @entity {
 type CommunityEntity @entity {
   id: ID!
   address: Bytes!
-  type: String!
-  isAdmin: Boolean
-  isApproved: Boolean
+  isUser: Boolean!
+  isAdmin: Boolean!
+  isBusiness: Boolean!
+  isApproved: Boolean!
   roles: Bytes!
   entitiesList: EntitiesList!
 }
