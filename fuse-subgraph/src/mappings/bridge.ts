@@ -1,6 +1,6 @@
 import {
   BridgeMappingUpdated,
-} from "../../generated/BridgeMapper/BridgeMapper"
+} from "../../generated/MainnetBridgeMapper/BridgeMapper"
 import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataSource } from "../../generated/templates"
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
