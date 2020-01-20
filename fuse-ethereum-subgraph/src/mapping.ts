@@ -29,7 +29,7 @@ export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void 
   // Entity fields can be set based on event parameters
   foreignBridge.address = event.params._foreignBridge
 
-  const bridgeContract = ForeignBridgeErcToErcContract.bind(foreignBridge.address as Address)
+  let bridgeContract = ForeignBridgeErcToErcContract.bind(foreignBridge.address as Address)
   foreignBridge.tokenAddress = bridgeContract.erc20token().toHexString()
   foreignBridge.save()
 
@@ -37,7 +37,7 @@ export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void 
 }
 
 export function handleTransfer(event: Transfer): void {
-  const id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
   let entity = TransferEvent.load(id)
   if (entity == null) {
     entity = new TransferEvent(id)
@@ -52,7 +52,7 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function handleTransferWithData(event: TransferWithData): void {
-  const id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
   let entity = TransferEvent.load(id)
   if (entity == null) {
     entity = new TransferEvent(id)
