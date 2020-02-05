@@ -1,8 +1,8 @@
 import {
-  CommunityCreated
+  CommunityCreated, TokenRegistered
 } from '../../generated/CommunityFactory/CommunityFactory'
 import { Community as CommunityContract } from '../../generated/CommunityFactory/Community'
-import { Community, CommunityEntity, EntitiesList } from '../../generated/schema'
+import { Token, Community, CommunityEntity, EntitiesList } from '../../generated/schema'
 import { EntityAdded, EntityRemoved, EntityRolesUpdated } from '../../generated/templates/EntitiesList/EntitiesList'
 import { EntitiesList as EntitiesListDataSource } from '../../generated/templates'
 import { Address, Bytes } from '@graphprotocol/graph-ts'
@@ -94,3 +94,8 @@ export function handleEntityRolesUpdated(event: EntityRolesUpdated): void {
   }
 }
 
+export function handleTokenRegistered(event: TokenRegistered): void {
+  let token = Token.load(event.params.token)
+  token.communityAddress = event.params.community
+  token.save()
+}

@@ -89,6 +89,8 @@ dataSources:
       eventHandlers:
         - event: CommunityCreated(indexed address,string)
           handler: handleCommunityCreated
+        - event: TokenRegistered(indexed address,address)
+          handler: handleTokenRegistered
       file: ./src/mappings/entities.ts
 templates:
   - kind: ethereum/contract
