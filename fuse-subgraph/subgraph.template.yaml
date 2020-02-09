@@ -7,7 +7,8 @@ dataSources:
     name: MainnetBridgeMapper
     network: fuse
     source:
-      address: '{{mainnetBridgeMapper}}'
+      address: '{{mainnetBridgeMapper.address}}'
+      startBlock: {{mainnetBridgeMapper.startBlock}}
       abi: BridgeMapper
     mapping:
       kind: ethereum/events
@@ -28,7 +29,8 @@ dataSources:
     name: RopstenBridgeMapper
     network: fuse
     source:
-      address: '{{ropstenBridgeMapper}}'
+      address: '{{ropstenBridgeMapper.address}}'
+      startBlock: {{ropstenBridgeMapper.startBlock}}
       abi: BridgeMapper
     mapping:
       kind: ethereum/events
@@ -49,7 +51,8 @@ dataSources:
     name: WalletFactory
     network: fuse
     source:
-      address: '{{walletFactory}}'
+      address: '{{walletFactory.address}}'
+      startBlock: {{walletFactory.startBlock}}
       abi: WalletFactory
     mapping:
       kind: ethereum/events
@@ -68,7 +71,8 @@ dataSources:
     name: CommunityFactory
     network: fuse
     source:
-      address: '{{communityFactory}}'
+      address: '{{communityFactory.address}}'
+      startBlock: {{communityFactory.startBlock}}
       abi: CommunityFactory
     mapping:
       kind: ethereum/events

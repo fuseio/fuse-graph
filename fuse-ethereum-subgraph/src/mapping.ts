@@ -44,6 +44,7 @@ export function handleTransfer(event: Transfer): void {
   }
   entity.txHash = event.transaction.hash
   entity.blockNumber = event.block.number
+  entity.timestamp = event.block.timestamp.toI32()
   entity.from = event.params.from
   entity.to = event.params.to
   entity.value = event.params.value
@@ -59,6 +60,7 @@ export function handleTransferWithData(event: TransferWithData): void {
   }
   entity.txHash = event.transaction.hash
   entity.blockNumber = event.block.number
+  entity.timestamp = event.block.timestamp.toI32()
   entity.from = event.params.from
   entity.to = event.params.to
   entity.value = event.params.value
