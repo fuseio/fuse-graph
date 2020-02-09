@@ -18,9 +18,11 @@ type TransferEvent @entity {
   id: ID!
   txHash: Bytes!
   blockNumber: BigInt!
+  timestamp: Int!
   from: Bytes!
   to: Bytes!
   value: BigInt!
   data: Bytes
   tokenAddress: Bytes
 }
+

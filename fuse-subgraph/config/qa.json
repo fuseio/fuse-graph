@@ -1,6 +1,18 @@
 {
-  "ropstenBridgeMapper": "0x3E0d9311E14b8Ba767b8917F3d06D1C178893E66",
-  "mainnetBridgeMapper": "0x89b98bB511A41FeF73b388cF8C052221f42cd44f",
-  "walletFactory": "0x71E4dc26518Bb7bD0331d925bb020A9B50eCE6Ca",
-  "communityFactory": "0x037Fe3AfDc9174F7a0da6F72Fbd87ef9f930B2a7"
+  "ropstenBridgeMapper": {
+    "address": "0x3E0d9311E14b8Ba767b8917F3d06D1C178893E66",
+    "startBlock": 104490
+  },
+  "mainnetBridgeMapper": {
+    "address": "0x89b98bB511A41FeF73b388cF8C052221f42cd44f",
+    "startBlock": 170101
+  },
+  "walletFactory": {
+    "address": "0x71E4dc26518Bb7bD0331d925bb020A9B50eCE6Ca",
+    "startBlock": 2551847
+  },
+  "communityFactory": {
+    "address": "0x037Fe3AfDc9174F7a0da6F72Fbd87ef9f930B2a7",
+    "startBlock": 2018725
+  }
 }
