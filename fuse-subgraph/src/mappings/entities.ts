@@ -95,7 +95,7 @@ export function handleEntityRolesUpdated(event: EntityRolesUpdated): void {
 }
 
 export function handleTokenRegistered(event: TokenRegistered): void {
-  let token = Token.load(event.params.token)
+  let token = Token.load(event.params.token.toHexString())
   token.communityAddress = event.params.community
   token.save()
 }
