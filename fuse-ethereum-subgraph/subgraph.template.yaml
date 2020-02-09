@@ -6,7 +6,8 @@ dataSources:
     name: ForeignBridgeFactory
     network: {{network}}
     source:
-      address: '{{foreignBridgeFactory}}'
+      address: '{{foreignBridgeFactory.address}}'
+      startBlock: {{foreignBridgeFactory.startBlock}}
       abi: ForeignBridgeFactory
     mapping:
       kind: ethereum/events
