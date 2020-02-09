@@ -1,4 +1,7 @@
 {
   "network": "ropsten",
-  "foreignBridgeFactory": "0xABBf5D8599B2Eb7b4e1D25a1Fd737FF1987655aD"
+  "foreignBridgeFactory": {
+    "address": "0xABBf5D8599B2Eb7b4e1D25a1Fd737FF1987655aD",
+    "startBlock": 6124296
+  }
 }
