@@ -3,9 +3,6 @@ import {
   ForeignBridgeDeployed
 } from "../generated/ForeignBridgeFactory/ForeignBridgeFactory"
 import {
-  ForeignBridgeErcToErc as ForeignBridgeErcToErcContract,
-} from "../generated/ForeignBridgeFactory/ForeignBridgeErcToErc"
-import {
   Transfer as TransferWithData,
   Transfer1 as Transfer
 } from "../generated/templates/Token/Token"
@@ -13,7 +10,6 @@ import {
   Token as TokenContract
 } from "../generated/templates"
 import { ForeignBridgeErcToErc, TransferEvent } from "../generated/schema"
-import { Address, Bytes } from '@graphprotocol/graph-ts'
 
 export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -26,14 +22,11 @@ export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void 
     foreignBridge = new ForeignBridgeErcToErc(event.params._foreignBridge.toHex())
   }
 
-  // Entity fields can be set based on event parameters
   foreignBridge.address = event.params._foreignBridge
-
-  let bridgeContract = ForeignBridgeErcToErcContract.bind(foreignBridge.address as Address)
-  foreignBridge.tokenAddress = bridgeContract.erc20token().toHexString()
+  foreignBridge.tokenAddress = event.params._foreignToken.toHexString()
   foreignBridge.save()
 
-  TokenContract.create(bridgeContract.erc20token())
+  TokenContract.create(event.params._foreignToken)
 }
 
 export function handleTransfer(event: Transfer): void {
@@ -44,7 +37,6 @@ export function handleTransfer(event: Transfer): void {
   }
   entity.txHash = event.transaction.hash
   entity.blockNumber = event.block.number
-  entity.timestamp = event.block.timestamp.toI32()
   entity.from = event.params.from
   entity.to = event.params.to
   entity.value = event.params.value
@@ -60,7 +52,6 @@ export function handleTransferWithData(event: TransferWithData): void {
   }
   entity.txHash = event.transaction.hash
   entity.blockNumber = event.block.number
-  entity.timestamp = event.block.timestamp.toI32()
   entity.from = event.params.from
   entity.to = event.params.to
   entity.value = event.params.value
