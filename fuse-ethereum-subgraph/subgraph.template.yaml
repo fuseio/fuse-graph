@@ -23,7 +23,7 @@ dataSources:
         - name: ForeignBridgeErcToErc
           file: ./abis/ForeignBridgeErcToErc.json
       eventHandlers:
-        - event: ForeignBridgeDeployed(indexed address,indexed address,uint256)
+        - event: ForeignBridgeDeployed(indexed address,indexed address,address,uint256)
           handler: handleForeignBridgeDeployed
       file: ./src/mapping.ts
 templates:
