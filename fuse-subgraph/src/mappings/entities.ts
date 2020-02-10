@@ -69,16 +69,11 @@ export function handleEntityAdded(event: EntityAdded): void {
   let entity = new CommunityEntity(id)
   entity.address = event.params.account
   entity.entitiesList = event.address.toHexString()
-  // let roles = event.params.roles
-  // let mask = new Bytes(1)
-  // let mask: i32 = 1
-  // mask[0] = 1
-  // if ((roles[0] & mask) == mask) {
-  //   entity.isBusiness = true
-  // }
   entity.roles = event.params.roles
-  
+  entity.createdAt = event.block.timestamp.toI32()
+
   deriveRoles(entity)
+
   entity.save()
 }
 

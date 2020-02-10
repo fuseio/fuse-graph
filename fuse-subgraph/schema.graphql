@@ -121,4 +121,5 @@ type CommunityEntity @entity {
   isApproved: Boolean!
   roles: Bytes!
   entitiesList: EntitiesList!
+  createdAt: Int!
 }
