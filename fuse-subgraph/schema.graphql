@@ -9,6 +9,7 @@ type BridgeMapping @entity {
   homeStartBlock: BigInt
   blockNumber: BigInt!
   txHash: Bytes!
+  originNetwork: String
 }
 
 type Token @entity {
