@@ -53,6 +53,7 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNe
   entity.homeStartBlock = event.params.homeStartBlock
   entity.blockNumber = event.block.number
   entity.txHash = event.transaction.hash
+  entity.originNetwork = originNetwork
 
   // Entities can be written to the store with `.save()`
   entity.save()
