@@ -5,7 +5,7 @@ import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataS
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
 import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../../generated/schema"
-import { log, Bytes } from '@graphprotocol/graph-ts'
+import { Bytes } from '@graphprotocol/graph-ts'
 
 export function handleRopstenBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   handleBridgeMappingUpdated(event, 'ropsten')
