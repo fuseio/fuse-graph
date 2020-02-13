@@ -3,10 +3,11 @@ import {
 } from '../../generated/CommunityFactory/CommunityFactory'
 import { Community as CommunityContract } from '../../generated/CommunityFactory/Community'
 import { Token, Community, CommunityEntity, EntitiesList } from '../../generated/schema'
+import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { EntityAdded, EntityRemoved, EntityRolesUpdated } from '../../generated/templates/EntitiesList/EntitiesList'
-import { EntitiesList as EntitiesListDataSource } from '../../generated/templates'
+import { Token as TokenDataSource, EntitiesList as EntitiesListDataSource } from '../../generated/templates'
 import { Address, Bytes } from '@graphprotocol/graph-ts'
-import { store } from '@graphprotocol/graph-ts'
+import { log, store } from '@graphprotocol/graph-ts'
 
 export function handleCommunityCreated(event: CommunityCreated): void {
   let community = new Community(event.params.community.toHexString())
@@ -95,7 +96,20 @@ export function handleEntityRolesUpdated(event: EntityRolesUpdated): void {
 }
 
 export function handleTokenRegistered(event: TokenRegistered): void {
-  let token = Token.load(event.params.token.toHexString())
+  let id = event.params.token.toHexString()
+  let token = Token.load(id)
+  if (token == null) {
+    token = new Token(id) as Token
+    token.address = event.params.token
+    
+    let tokenContract = TokenContract.bind(event.params.token)
+    
+    token.symbol = tokenContract.symbol()
+    token.name= tokenContract.name()
+    token.totalSupply = tokenContract.totalSupply()
+    token.decimals = tokenContract.decimals()
+  }
   token.communityAddress = event.params.community
   token.save()
+  TokenDataSource.create(event.params.token)
 }

@@ -14,5 +14,9 @@
   "communityFactory": {
     "address": "0x0F7bD61dE50Aa24A4c4C6bd2111E54Cae92bf33a",
     "startBlock": 2018742
+  },
+  "communityFactoryV2": {
+    "address": "0x27AfFd11168101F5CAb54bbFF8D4D35a799Fb67C",
+    "startBlock": 3382658
   }
 }
