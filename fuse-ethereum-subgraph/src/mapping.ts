@@ -30,7 +30,7 @@ export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void 
 }
 
 export function handleTransfer(event: Transfer): void {
-  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let id = event.transaction.hash.toHexString() + '_' + event.logIndex.toString() as string
   let entity = TransferEvent.load(id)
   if (entity == null) {
     entity = new TransferEvent(id)
@@ -46,7 +46,7 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function handleTransferWithData(event: TransferWithData): void {
-  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let id = event.transaction.hash.toHexString() + '_' + event.logIndextransactionLogIndex.toString() as string
   let entity = TransferEvent.load(id)
   if (entity == null) {
     entity = new TransferEvent(id)
