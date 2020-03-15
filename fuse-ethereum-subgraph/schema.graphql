@@ -26,3 +26,18 @@ type TransferEvent @entity {
   tokenAddress: Bytes
 }
 
+type AccountToken @entity {
+  "Concatenation of Token address and user address"
+  id: ID!
+  tokenAddress: Bytes!
+  account: Account!
+  txHashes: [Bytes!]!
+  blockNumbers: [BigInt!]!
+  balance: BigInt!
+}
+
+type Account @entity {
+  id: ID!
+  address: Bytes!
+  tokens: [AccountToken!]! @derivedFrom(field: "account")
+}

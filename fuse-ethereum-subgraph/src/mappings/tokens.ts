@@ -1,9 +1,8 @@
 import {
   Transfer as TransferWithData,
-  Transfer1 as Transfer,
-  TransferManagerSet
+  Transfer1 as Transfer
 } from "../../generated/templates/Token/Token"
-import { Token, AccountToken, Account, TransferEvent } from "../../generated/schema"
+import { AccountToken, Account, TransferEvent } from "../../generated/schema"
 import { Bytes, BigInt } from '@graphprotocol/graph-ts'
 
 
@@ -127,10 +126,4 @@ export function handleTransferWithData(event: TransferWithData): void {
 
   toAccountToken.balance = toAccountToken.balance.plus(value)
   toAccountToken.save()
-}
-
-export function handleTransferManagerSet(event: TransferManagerSet): void {
-  let token = Token.load(event.address.toHexString())
-  token.communityAddress = event.params.transferManager
-  token.save()
 }
