@@ -60,7 +60,7 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNe
 }
 
 export function handleUserRequestForSignature(event: UserRequestForSignature): void {
-  let key = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let key = event.transaction.hash.toHexString() + '_' + event.logIndex.toString() as string
   let entity = UserRequestForSignatureEvent.load(key)
 
   if (entity == null) {
@@ -79,7 +79,7 @@ export function handleUserRequestForSignature(event: UserRequestForSignature): v
 }
 
 export function handleCollectedSignatures(event: CollectedSignatures): void {
-  let key = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
+  let key = event.transaction.hash.toHexString() + '_' + event.logIndex.toString() as string
   let entity = CollectedSignaturesEvent.load(key)
 
   if (entity == null) {
