@@ -11,6 +11,10 @@
     "address": "0xe02A2163629174937487f994E20214631540fB65",
     "startBlock": 2789163
   },
+  "walletFactoryV2": {
+    "address": "0x2FE1F9bBC9CE8Ea4E00F89FC1a8936DE6934b63D",
+    "startBlock": 3820385
+  },
   "communityFactory": {
     "address": "0x0F7bD61dE50Aa24A4c4C6bd2111E54Cae92bf33a",
     "startBlock": 2018742
