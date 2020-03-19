@@ -68,6 +68,26 @@ dataSources:
           handler: handleWalletCreated
       file: ./src/mappings/wallet.ts
   - kind: ethereum/contract
+    name: WalletFactoryV2
+    network: fuse
+    source:
+      address: '{{walletFactoryV2.address}}'
+      startBlock: {{walletFactoryV2.startBlock}}
+      abi: WalletFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - WalletFactory
+      abis:
+        - name: WalletFactory
+          file: ./abis/WalletFactory.json
+      eventHandlers:
+        - event: WalletCreated(indexed address,indexed address)
+          handler: handleWalletCreated
+      file: ./src/mappings/wallet.ts
+  - kind: ethereum/contract
     name: CommunityFactory
     network: fuse
     source:
