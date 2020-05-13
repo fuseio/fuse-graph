@@ -11,7 +11,7 @@ dataSources:
       abi: ForeignBridgeFactory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - ForeignBridgeErcToErc
@@ -34,7 +34,7 @@ templates:
       abi: Token
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       file: ./src/mappings/tokens.ts
       entities:
