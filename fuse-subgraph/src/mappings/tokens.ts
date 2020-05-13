@@ -45,7 +45,7 @@ export function updateAccountToken(
 }
 
 function addTransferEvent(event: Transfer): void {
-  let id = event.transaction.hash.toHexString() + '_' + event.logIndex.toString() as string
+  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
   let entity = TransferEvent.load(id)
   if (entity == null) {
     entity = new TransferEvent(id)
@@ -87,7 +87,7 @@ export function handleTransfer(event: Transfer): void {
 }
 
 function addTransferWithData(event: TransferWithData): void {
-  let id = event.transaction.hash.toHexString() + '_' + event.logIndex.toString() as string
+  let id = event.transaction.hash.toHexString() + '_' + event.transactionLogIndex.toString() as string
   let entity = TransferEvent.load(id)
   if (entity == null) {
     entity = new TransferEvent(id)

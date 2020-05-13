@@ -25,7 +25,7 @@ dataSources:
       eventHandlers:
         - event: ForeignBridgeDeployed(indexed address,indexed address,address,uint256)
           handler: handleForeignBridgeDeployed
-      file: ./src/mappings/bridges.ts
+      file: ./src/mapping.ts
 templates:
   - kind: ethereum/contract
     name: Token
@@ -36,7 +36,7 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
-      file: ./src/mappings/tokens.ts
+      file: ./src/mapping.ts
       entities:
         - Token
       abis:
