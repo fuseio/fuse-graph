@@ -66,16 +66,3 @@ export function handleTransferWithData(event: TransferWithData): void {
 
   entity.save()
 }
-
-// export function handleDeployForeignBridge(call: DeployForeignBridgeCall): void {
-//   log.warning('leonn ID: {}',[call.to.toString()])
-//   const id = call.to.toHex()
-//   let foreignBridge = ForeignBridgeErcToErc.load(id)
-
-//   if (foreignBridge == null) {
-//     foreignBridge = new ForeignBridgeErcToErc(id)
-//   }
-//   foreignBridge.address = call.to
-//   foreignBridge.tokenAddress = call.inputs._erc20Token
-//   foreignBridge.save()
-// }
