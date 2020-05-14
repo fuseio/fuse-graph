@@ -29,7 +29,9 @@ export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void 
   let token = Token.load(event.params._foreignToken.toHex())
   if (token == null) {
     token = new Token(event.params._foreignToken.toHex())
+    token.address = event.params._foreignToken.toHex()
     token.save()
+
     TokenContract.create(event.params._foreignToken)
   }
 }
