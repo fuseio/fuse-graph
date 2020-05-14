@@ -9,7 +9,7 @@ import {
 import {
   Token as TokenContract
 } from "../generated/templates"
-import { ForeignBridgeErcToErc, TransferEvent } from "../generated/schema"
+import { ForeignBridgeErcToErc, TransferEvent, Token } from "../generated/schema"
 
 export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -26,7 +26,11 @@ export function handleForeignBridgeDeployed(event: ForeignBridgeDeployed): void 
   foreignBridge.tokenAddress = event.params._foreignToken.toHexString()
   foreignBridge.save()
 
-  TokenContract.create(event.params._foreignToken)
+  let token = Token.load(event.params._foreignToken.toHex())
+  if (token == null) {
+    token = new Token(event.params._foreignToken.toHex())
+    TokenContract.create(event.params._foreignToken)
+  }
 }
 
 export function handleTransfer(event: Transfer): void {
