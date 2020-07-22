@@ -1,0 +1,21 @@
+{
+  "name": "fuse-subgraph",
+  "license": "MIT",
+  "scripts": {
+    "codegen": "graph codegen subgraph.yaml",
+    "build": "graph build",
+    "create": "npm run create:prod",
+    "remove": "npm run remove:prod",
+    "deploy": "npm run deploy:prod",
+    "redeploy": "npm run remove:prod && npm run create:prod && npm run deploy:prod",
+    "create:prod": "graph create --node http://localhost:8020/ fuseio/fuse-consensus",
+    "remove:prod": "graph remove --node http://localhost:8020/ fuseio/fuse-consensus",
+    "deploy:prod": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-consensus"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.18.0",
+    "@graphprotocol/graph-ts": "0.18.1",
+    "inquirer": "^7.0.0",
+    "mustache": "^3.1.0"
+  }
+}

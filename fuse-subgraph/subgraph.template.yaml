@@ -12,7 +12,7 @@ dataSources:
       abi: BridgeMapper
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
         - BridgeMappingUpdated
@@ -34,7 +34,7 @@ dataSources:
       abi: BridgeMapper
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
         - BridgeMappingUpdated
@@ -56,7 +56,7 @@ dataSources:
       abi: WalletFactory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
         - WalletFactory
@@ -76,7 +76,7 @@ dataSources:
       abi: WalletFactory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
         - WalletFactory
@@ -96,7 +96,7 @@ dataSources:
       abi: CommunityFactory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
         - CommunityFactory
@@ -119,7 +119,7 @@ dataSources:
       abi: CommunityFactory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
         - CommunityFactory
@@ -145,7 +145,7 @@ templates:
       abi: Token
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       file: ./src/mappings/tokens.ts
       entities:
@@ -168,7 +168,7 @@ templates:
       abi: HomeBridgeErcToErc
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       file: ./src/mappings/bridge.ts
       entities:
@@ -188,7 +188,7 @@ templates:
       abi: EntitiesList
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       file: ./src/mappings/entities.ts
       entities:

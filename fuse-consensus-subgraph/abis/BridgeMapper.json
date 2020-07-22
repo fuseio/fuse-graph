@@ -1,0 +1,181 @@
+[
+  {
+    "type": "function",
+    "stateMutability": "pure",
+    "payable": false,
+    "outputs": [
+      { "type": "uint64", "name": "major" },
+      { "type": "uint64", "name": "minor" },
+      { "type": "uint64", "name": "patch" }
+    ],
+    "name": "getBridgeMapperVersion",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "foreignStartBlockByKey",
+    "inputs": [{ "type": "bytes32", "name": "_key" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "pure",
+    "payable": false,
+    "outputs": [{ "type": "bytes32", "name": "" }],
+    "name": "getAddBridgeMappingHash",
+    "inputs": [
+      { "type": "bytes32", "name": "_key" },
+      { "type": "address", "name": "_foreignToken" },
+      { "type": "address", "name": "_homeToken" },
+      { "type": "address", "name": "_foreignBridge" },
+      { "type": "address", "name": "_homeBridge" },
+      { "type": "uint256", "name": "_foreignStartBlock" },
+      { "type": "uint256", "name": "_homeStartBlock" }
+    ],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "" }],
+    "name": "isInitialized",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "foreignBridgeByKey",
+    "inputs": [{ "type": "bytes32", "name": "_key" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "foreignTokenByKey",
+    "inputs": [{ "type": "bytes32", "name": "_key" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "removeBridgeMapping",
+    "inputs": [{ "type": "bytes32", "name": "_key" }],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "" }],
+    "name": "hashedTxs",
+    "inputs": [{ "type": "bytes32", "name": "_hashTx" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "homeBridgeByKey",
+    "inputs": [{ "type": "bytes32", "name": "_key" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "owner",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "" }],
+    "name": "initialize",
+    "inputs": [{ "type": "address", "name": "_owner" }],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "addBridgeMapping",
+    "inputs": [
+      { "type": "bytes32", "name": "_key" },
+      { "type": "address", "name": "_foreignToken" },
+      { "type": "address", "name": "_homeToken" },
+      { "type": "address", "name": "_foreignBridge" },
+      { "type": "address", "name": "_homeBridge" },
+      { "type": "uint256", "name": "_foreignStartBlock" },
+      { "type": "uint256", "name": "_homeStartBlock" },
+      { "type": "bytes", "name": "_signature" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "homeStartBlockByKey",
+    "inputs": [{ "type": "bytes32", "name": "_key" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "homeTokenByKey",
+    "inputs": [{ "type": "bytes32", "name": "_key" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "transferOwnership",
+    "inputs": [{ "type": "address", "name": "newOwner" }],
+    "constant": false
+  },
+  {
+    "type": "event",
+    "name": "BridgeMappingUpdated",
+    "inputs": [
+      { "type": "bytes32", "name": "key", "indexed": false },
+      { "type": "address", "name": "foreignToken", "indexed": false },
+      { "type": "address", "name": "homeToken", "indexed": false },
+      { "type": "address", "name": "foreignBridge", "indexed": false },
+      { "type": "address", "name": "homeBridge", "indexed": false },
+      { "type": "uint256", "name": "foreignStartBlock", "indexed": false },
+      { "type": "uint256", "name": "homeStartBlock", "indexed": false }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EternalOwnershipTransferred",
+    "inputs": [
+      { "type": "address", "name": "previousOwner", "indexed": false },
+      { "type": "address", "name": "newOwner", "indexed": false }
+    ],
+    "anonymous": false
+  }
+]
