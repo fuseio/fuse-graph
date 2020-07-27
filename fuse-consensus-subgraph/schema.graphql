@@ -1,0 +1,71 @@
+type RelayedMessageEvent @entity {
+  id: ID!
+  address: Bytes!
+  recipient: Bytes!
+  value: BigInt!
+  transactionHash: String!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+}
+
+type SignedForUserRequestEvent @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+  signer: Bytes!
+  messageHash: Bytes!
+}
+
+
+type UserRequestForSignatureEvent @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+  recipient: Bytes!
+  value: BigInt!
+}
+
+type CollectedSignaturesEvent @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+  authorityResponsibleForRelay: Bytes!
+  messageHash: Bytes!
+  numberOfCollectedSignatures: BigInt!
+}
+
+type AffirmationCompletedEvent @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+  recipient: Bytes!
+  value: BigInt!
+  transactionHash: Bytes!
+}
+
+type InitiateChangeEvent @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+  parentHash: Bytes!
+}
+
+
+type ChangeFinalized @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+}

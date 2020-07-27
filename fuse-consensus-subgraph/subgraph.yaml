@@ -1,0 +1,56 @@
+specVersion: 0.0.2
+repository: https://github.com/fuseio/fuse-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: HomeBridgeNativeToErc
+    network: fuse
+    source:
+      address: '0xd617774b9708F79187Dc7F03D3Bdce0a623F6988'
+      startBlock: 30
+      abi: HomeBridgeNativeToErc
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - RelayedMessageEvent
+        - SignedForUserRequestEvent
+        - CollectedSignaturesEvent
+        - AffirmationCompletedEvent
+      abis:
+        - name: HomeBridgeNativeToErc
+          file: ./abis/HomeBridgeNativeToErc.json
+      eventHandlers:
+        # - event: RelayedMessage(address,uint256,bytes32)
+        #   handler: handleRelayedMessage
+        - event: SignedForUserRequest(indexed address,bytes32)
+          handler: handleSignedForUserRequest
+        - event: UserRequestForSignature(address,uint256)
+          handler: handleUserRequestForSignature
+        - event: CollectedSignatures(address,bytes32,uint256)
+          handler: handleCollectedSignatures
+        - event: AffirmationCompleted(address,uint256,bytes32)
+          handler: handleAffirmationCompleted
+      file: ./src/mappings/bridge.ts
+  - kind: ethereum/contract
+    name: Consensus
+    network: fuse
+    source:
+      address: '0x3014ca10b91cb3D0AD85fEf7A3Cb95BCAc9c0f79'
+      startBlock: 30
+      abi: Consensus
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - InitiateChangeEvent
+      abis:
+        - name: Consensus
+          file: ./abis/Consensus.json
+      eventHandlers:
+        - event: InitiateChange(indexed bytes32,address[])
+          handler: handleInitiateChange
+      file: ./src/mappings/consensus.ts
