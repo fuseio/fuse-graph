@@ -41,4 +41,31 @@ type CollectedSignaturesEvent @entity {
   numberOfCollectedSignatures: BigInt!
 }
 
+type AffirmationCompletedEvent @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+  recipient: Bytes!
+  value: BigInt!
+  transactionHash: Bytes!
+}
 
+type InitiateChangeEvent @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+  parentHash: Bytes!
+}
+
+
+type ChangeFinalized @entity {
+  id: ID!
+  address: Bytes!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+}

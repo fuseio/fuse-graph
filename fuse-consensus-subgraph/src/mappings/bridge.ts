@@ -1,9 +1,10 @@
 import {
   UserRequestForSignature,
   SignedForUserRequest,
-  CollectedSignatures
+  CollectedSignatures,
+  AffirmationCompleted
 } from "../../generated/HomeBridgeNativeToErc/HomeBridgeNativeToErc"
-import { SignedForUserRequestEvent, UserRequestForSignatureEvent, CollectedSignaturesEvent } from "../../generated/schema"
+import { SignedForUserRequestEvent, UserRequestForSignatureEvent, CollectedSignaturesEvent, AffirmationCompletedEvent } from "../../generated/schema"
 import { log } from '@graphprotocol/graph-ts'
 
 // export function handleRelayedMessage(event: RelayedMessage): void {
@@ -55,19 +56,38 @@ export function handleUserRequestForSignature(event: UserRequestForSignature): v
   entity.save()
 }
 
-export function handleUserRequestForSignature(event: UserRequestForSignature): void {
+export function handleCollectedSignatures(event: CollectedSignatures): void {
   let id = event.transaction.hash.toHexString() + '_' + event.logIndex.toString() as string
-  let entity = UserRequestForSignatureEvent.load(id)
+  let entity = CollectedSignaturesEvent.load(id)
   if (entity == null) {
-    entity = new UserRequestForSignatureEvent(id)
+    entity = new CollectedSignaturesEvent(id)
   }
   entity.address = event.address
   entity.txHash = event.transaction.hash
   entity.blockNumber = event.block.number
   entity.timestamp = event.block.timestamp.toI32()
-  entity.recipient = event.params.recipient
-  entity.value = event.params.value
+
+  entity.authorityResponsibleForRelay = event.params.authorityResponsibleForRelay
+  entity.messageHash = event.params.messageHash
+  entity.numberOfCollectedSignatures = event.params.NumberOfCollectedSignatures
 
   entity.save()
 }
 
+export function handleAffirmationCompleted(event: AffirmationCompleted): void {
+  let id = event.transaction.hash.toHexString() + '_' + event.logIndex.toString() as string
+  let entity = AffirmationCompletedEvent.load(id)
+  if (entity == null) {
+    entity = new AffirmationCompletedEvent(id)
+  }
+  entity.address = event.address
+  entity.txHash = event.transaction.hash
+  entity.blockNumber = event.block.number
+  entity.timestamp = event.block.timestamp.toI32()
+
+  entity.recipient = event.params.recipient
+  entity.value = event.params.value
+  entity.transactionHash = event.params.transactionHash
+
+  entity.save()
+}
