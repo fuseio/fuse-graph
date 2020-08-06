@@ -19,7 +19,7 @@ export function handleMainnetBridgeMappingUpdated(event: BridgeMappingUpdated): 
 
 export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNetwork: String): void {
 
-  log.info('lalala {} leon length', [event.params.homeToken.toHexString()])
+  // log.info('lalala {} leon length', [event.params.homeToken.toHexString()])
   if (event.params.homeToken.toHexString() == '0x0000000000000000000000000000000000000000') {
     return
   }
