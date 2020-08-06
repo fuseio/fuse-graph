@@ -36,14 +36,14 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNe
   
   let tokenContract = TokenContract.bind(event.params.homeToken)
   
-  // homeToken.symbol = tokenContract.symbol()
-  let callResult = tokenContract.try_symbol()
-  if (callResult.reverted) {
-    log.info("getGravatar reverted", [])
-    homeToken.symbol = 'reverted'
-  } else {
-    homeToken.symbol = callResult.value
-  }
+  homeToken.symbol = tokenContract.symbol()
+  // let callResult = tokenContract.try_symbol()
+  // if (callResult.reverted) {
+  //   log.info("getGravatar reverted", [])
+  //   homeToken.symbol = 'reverted'
+  // } else {
+  //   homeToken.symbol = callResult.value
+  // }
 
   // homeToken.symbol = 'LT'
   // homeToken.name = 'leontest'
