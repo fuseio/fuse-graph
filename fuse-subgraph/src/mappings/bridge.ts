@@ -6,6 +6,8 @@ import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
 import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../../generated/schema"
 import { Bytes } from '@graphprotocol/graph-ts'
+import { log } from '@graphprotocol/graph-ts'
+import { Address } from '@graphprotocol/graph-ts'
 
 export function handleRopstenBridgeMappingUpdated(event: BridgeMappingUpdated): void {
   handleBridgeMappingUpdated(event, 'ropsten')
@@ -16,8 +18,12 @@ export function handleMainnetBridgeMappingUpdated(event: BridgeMappingUpdated): 
 }
 
 export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNetwork: String): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
+
+  log.info('lalala {} leon length', [event.params.homeToken.toHexString()])
+  if (event.params.homeToken.toHexString() == '0x0000000000000000000000000000000000000000') {
+    return
+  }
+
   let entity = BridgeMapping.load(event.params.key.toHex())
 
   if (entity == null) {
@@ -30,8 +36,21 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNe
   
   let tokenContract = TokenContract.bind(event.params.homeToken)
   
-  homeToken.symbol = tokenContract.symbol()
+  // homeToken.symbol = tokenContract.symbol()
+  let callResult = tokenContract.try_symbol()
+  if (callResult.reverted) {
+    log.info("getGravatar reverted", [])
+    homeToken.symbol = 'reverted'
+  } else {
+    homeToken.symbol = callResult.value
+  }
+
+  // homeToken.symbol = 'LT'
+  // homeToken.name = 'leontest'
+
   homeToken.name= tokenContract.name()
+  // log.info('totalSupply:', [event.params.homeToken.toHexString()])
+
   homeToken.totalSupply = tokenContract.totalSupply()
   homeToken.decimals = tokenContract.decimals()
   homeToken.originNetwork = originNetwork

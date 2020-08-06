@@ -5,6 +5,7 @@ import {
 } from "../../generated/templates/Token/Token"
 import { Token, AccountToken, Account, TransferEvent } from "../../generated/schema"
 import { Bytes, BigInt } from '@graphprotocol/graph-ts'
+import { log } from '@graphprotocol/graph-ts'
 
 
 export function updateAccountToken(
@@ -130,6 +131,8 @@ export function handleTransferWithData(event: TransferWithData): void {
 }
 
 export function handleTransferManagerSet(event: TransferManagerSet): void {
+  // log.info('hahaha {} leon length', [event.address.toHexString()])
+
   let token = Token.load(event.address.toHexString())
   token.communityAddress = event.params.transferManager
   token.save()
