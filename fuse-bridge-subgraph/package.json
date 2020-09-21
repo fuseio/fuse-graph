@@ -1,0 +1,26 @@
+{
+  "name": "fuse-subgraph",
+  "license": "MIT",
+  "scripts": {
+    "prepare:ethereum": "mustache config/ethereum.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ropsten": "mustache config/ropsten.json subgraph.template.yaml > subgraph.yaml",
+    "codegen": "graph codegen subgraph.yaml",
+    "build": "graph build",
+    "create": "npm run create:dev",
+    "remove": "npm run remove:dev",
+    "deploy": "npm run deploy:dev",
+    "redeploy": "npm run remove:dev && npm run create:dev && npm run deploy:dev",
+    "create:ethereum": "graph create --node http://localhost:8020/ fuseio/fuse-ethereum-bridge",
+    "remove:ethereum": "graph remove --node http://localhost:8020/ fuseio/fuse-ethereum-bridge",
+    "deploy:ethereum": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-ethereum-bridge",
+    "create:ropsten": "graph create --node http://localhost:8020/ fuseio/fuse-ropsten-bridge",
+    "remove:ropsten": "graph remove --node http://localhost:8020/ fuseio/fuse-ropsten-bridge",
+    "deploy:ropsten": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-ropsten-bridge"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.18.0",
+    "@graphprotocol/graph-ts": "0.18.1",
+    "inquirer": "^7.0.0",
+    "mustache": "^3.1.0"
+  }
+}

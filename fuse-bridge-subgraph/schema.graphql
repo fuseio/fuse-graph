@@ -1,0 +1,11 @@
+
+type BridgedToken @entity {
+  id: ID!
+  address: Bytes!
+  symbol: String!
+  name: String!
+  decimals: Int!
+  foreignAddress: Bytes!
+  createdAt: Int!
+  createdAtBlock: BigInt!
+}

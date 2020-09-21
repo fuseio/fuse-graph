@@ -1,0 +1,27 @@
+specVersion: 0.0.2
+repository: https://github.com/fuseio/fuse-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: HomeMultiAMBErc20ToErc677
+    network: fuse
+    source:
+      address: '{{HomeMultiAMBErc20ToErc677.address}}'
+      startBlock: {{HomeMultiAMBErc20ToErc677.startBlock}}
+      abi: HomeMultiAMBErc20ToErc677
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - BridgedToken
+      abis:
+        - name: HomeMultiAMBErc20ToErc677
+          file: ./abis/HomeMultiAMBErc20ToErc677.json
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: NewTokenRegistered(indexed address,indexed address)
+          handler: handleNewTokenRegistered
+      file: ./src/mappings.ts
