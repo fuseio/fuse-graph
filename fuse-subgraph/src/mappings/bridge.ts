@@ -34,26 +34,26 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNe
   let homeToken = new Token(event.params.homeToken.toHexString()) as Token
   homeToken.address = event.params.homeToken
   
-  let tokenContract = TokenContract.bind(event.params.homeToken)
+  // let tokenContract = TokenContract.bind(event.params.homeToken)
   
-  homeToken.symbol = tokenContract.symbol()
-  // let callResult = tokenContract.try_symbol()
-  // if (callResult.reverted) {
-  //   log.info("getGravatar reverted", [])
-  //   homeToken.symbol = 'reverted'
-  // } else {
-  //   homeToken.symbol = callResult.value
-  // }
+  // homeToken.symbol = tokenContract.symbol()
+  // // let callResult = tokenContract.try_symbol()
+  // // if (callResult.reverted) {
+  // //   log.info("getGravatar reverted", [])
+  // //   homeToken.symbol = 'reverted'
+  // // } else {
+  // //   homeToken.symbol = callResult.value
+  // // }
 
-  // homeToken.symbol = 'LT'
-  // homeToken.name = 'leontest'
+  // // homeToken.symbol = 'LT'
+  // // homeToken.name = 'leontest'
 
-  homeToken.name= tokenContract.name()
+  // homeToken.name= tokenContract.name()
   // log.info('totalSupply:', [event.params.homeToken.toHexString()])
 
-  homeToken.totalSupply = tokenContract.totalSupply()
-  homeToken.decimals = tokenContract.decimals()
-  homeToken.originNetwork = originNetwork
+  // homeToken.totalSupply = tokenContract.totalSupply()
+  // homeToken.decimals = tokenContract.decimals()
+  homeToken.originNetwork = originNetwork as string
 
   homeToken.save()
 
