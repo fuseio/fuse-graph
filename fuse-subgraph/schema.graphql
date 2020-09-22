@@ -76,8 +76,6 @@ type AccountToken @entity {
   id: ID!
   tokenAddress: Bytes!
   account: Account!
-  txHashes: [Bytes!]!
-  blockNumbers: [BigInt!]!
   balance: BigInt!
 }
 
