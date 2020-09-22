@@ -1,0 +1,114 @@
+specVersion: 0.0.2
+repository: https://github.com/fuseio/fuse-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: WalletFactory
+    network: fuse
+    source:
+      address: '{{walletFactory.address}}'
+      startBlock: {{walletFactory.startBlock}}
+      abi: WalletFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - WalletFactory
+      abis:
+        - name: WalletFactory
+          file: ./abis/WalletFactory.json
+      eventHandlers:
+        - event: WalletCreated(indexed address,indexed address)
+          handler: handleWalletCreated
+      file: ./src/mappings/wallet.ts
+  - kind: ethereum/contract
+    name: WalletFactoryV2
+    network: fuse
+    source:
+      address: '{{walletFactoryV2.address}}'
+      startBlock: {{walletFactoryV2.startBlock}}
+      abi: WalletFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - WalletFactory
+      abis:
+        - name: WalletFactory
+          file: ./abis/WalletFactory.json
+      eventHandlers:
+        - event: WalletCreated(indexed address,indexed address)
+          handler: handleWalletCreated
+      file: ./src/mappings/wallet.ts
+  - kind: ethereum/contract
+    name: CommunityFactory
+    network: fuse
+    source:
+      address: '{{communityFactory.address}}'
+      startBlock: {{communityFactory.startBlock}}
+      abi: CommunityFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - CommunityFactory
+        - EntitiesList
+      abis:
+        - name: CommunityFactory
+          file: ./abis/CommunityFactory.json
+        - name: Community
+          file: ./abis/CommunityWithEvents.json
+      eventHandlers:
+        - event: CommunityCreated(indexed address,string)
+          handler: handleCommunityCreated
+      file: ./src/mappings/entities.ts
+  - kind: ethereum/contract
+    name: CommunityFactoryV2
+    network: fuse
+    source:
+      address: '{{communityFactoryV2.address}}'
+      startBlock: {{communityFactoryV2.startBlock}}
+      abi: CommunityFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - CommunityFactory
+        - EntitiesList
+      abis:
+        - name: CommunityFactory
+          file: ./abis/CommunityFactory.json
+        - name: Community
+          file: ./abis/CommunityWithEvents.json
+      eventHandlers:
+        - event: CommunityCreated(indexed address,string)
+          handler: handleCommunityCreated
+      file: ./src/mappings/entities.ts
+templates:
+  - kind: ethereum/contract
+    name: EntitiesList
+    network: fuse
+    source:
+      abi: EntitiesList
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/entities.ts
+      entities:
+        - Entity
+      abis:
+        - name: EntitiesList
+          file: ./abis/EntitiesList.json
+      eventHandlers:
+        - event: EntityAdded(indexed address,bytes32)
+          handler: handleEntityAdded
+        - event: EntityRemoved(indexed address)
+          handler: handleEntityRemoved
+        - event: EntityRolesUpdated(indexed address,bytes32)
+          handler: handleEntityRolesUpdated

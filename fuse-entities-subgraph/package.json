@@ -1,0 +1,30 @@
+{
+  "name": "fuse-entities-subgraph",
+  "license": "MIT",
+  "scripts": {
+    "prepare:dev": "mustache config/dev.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:qa": "mustache config/qa.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:prod": "mustache config/prod.json subgraph.template.yaml > subgraph.yaml",
+    "codegen": "graph codegen subgraph.yaml",
+    "build": "graph build",
+    "create": "npm run create:dev",
+    "remove": "npm run remove:dev",
+    "deploy": "npm run deploy:dev",
+    "redeploy": "npm run remove:dev && npm run create:dev && npm run deploy:dev",
+    "create:dev": "graph create --node http://localhost:8020/ fuseio/fuse-entities-dev",
+    "remove:dev": "graph remove --node http://localhost:8020/ fuseio/fuse-entities-dev",
+    "deploy:dev": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-entities-dev",
+    "create:qa": "graph create --node http://localhost:8020/ fuseio/fuse-entities-qa",
+    "remove:qa": "graph remove --node http://localhost:8020/ fuseio/fuse-entities-qa",
+    "deploy:qa": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-entities-qa",
+    "create:prod": "graph create --node http://localhost:8020/ fuseio/fuse-entities",
+    "remove:prod": "graph remove --node http://localhost:8020/ fuseio/fuse-entities",
+    "deploy:prod": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuseio/fuse-entities"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.18.0",
+    "@graphprotocol/graph-ts": "0.18.1",
+    "inquirer": "^7.0.0",
+    "mustache": "^3.1.0"
+  }
+}

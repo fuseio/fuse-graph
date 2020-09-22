@@ -1,0 +1,46 @@
+type Token @entity {
+  id: ID!
+  address: Bytes!
+  symbol: String!
+  name: String!
+  totalSupply: BigInt!
+  decimals: Int!
+  communityAddress: Bytes
+  originNetwork: String
+}
+
+type Wallet @entity {
+  id: ID!
+  address: Bytes!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  timestamp: Int!
+  owner: Bytes
+  modules: Int
+  implementation: Bytes
+}
+
+type Community @entity {
+  id: ID!
+  address: Bytes!
+  name: String!
+  entitiesList: EntitiesList!
+}
+
+type EntitiesList @entity {
+  id: ID!
+  address: Bytes!
+  communityEntities: [CommunityEntity!]! @derivedFrom(field: "entitiesList")
+}
+
+type CommunityEntity @entity {
+  id: ID!
+  address: Bytes!
+  isUser: Boolean!
+  isAdmin: Boolean!
+  isBusiness: Boolean!
+  isApproved: Boolean!
+  roles: Bytes!
+  entitiesList: EntitiesList!
+  createdAt: Int!
+}
