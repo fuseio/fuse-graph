@@ -6,7 +6,6 @@ type Token @entity {
   totalSupply: BigInt!
   decimals: Int!
   communityAddress: Bytes
-  originNetwork: String
 }
 
 type Wallet @entity {

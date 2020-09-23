@@ -30,16 +30,7 @@ export function updateAccountToken(
     accountToken.tokenAddress = tokenAddress
 
     accountToken.balance = BigInt.fromI32(0)
-    accountToken.txHashes = []
-    accountToken.blockNumbers = []
   }
-  let txHashes = accountToken.txHashes
-  txHashes.push(txHash)
-  accountToken.txHashes = txHashes
-
-  let blockNumbers = accountToken.blockNumbers
-  blockNumbers.push(blockNumber)
-  accountToken.blockNumbers = blockNumbers
 
   return accountToken as AccountToken
 }

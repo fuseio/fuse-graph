@@ -18,6 +18,14 @@ export function handleMainnetBridgeMappingUpdated(event: BridgeMappingUpdated): 
 export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNetwork: String): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
+  if (event.params.homeToken.toHexString() == '0x0000000000000000000000000000000000000000') {
+    return
+  }
+
+  if (event.params.homeToken.toHexString() == '0xf9d5b2d4410f9fe937a4d51c9fe16b104bc9f2be') {
+    return
+  }
+
   let entity = BridgeMapping.load(event.params.key.toHex())
 
   if (entity == null) {
