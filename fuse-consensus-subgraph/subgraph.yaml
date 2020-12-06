@@ -54,3 +54,23 @@ dataSources:
         - event: InitiateChange(indexed bytes32,address[])
           handler: handleInitiateChange
       file: ./src/mappings/consensus.ts
+  - kind: ethereum/contract
+    name: BlockReward
+    network: fuse
+    source:
+      address: '0x63D4efeD2e3dA070247bea3073BCaB896dFF6C9B'
+      startBlock: 30
+      abi: BlockReward
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - RewardedOnCycleEvent
+      abis:
+        - name: BlockReward
+          file: ./abis/BlockReward.json
+      eventHandlers:
+        - event: RewardedOnCycle(uint256)
+          handler: handleRewardedOnCycle
+      file: ./src/mappings/blockReward.ts

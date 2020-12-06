@@ -69,3 +69,12 @@ type ChangeFinalized @entity {
   txHash: Bytes!
   timestamp: Int!
 }
+
+type RewardedOnCycleEvent @entity {
+  id: ID!
+  address: Bytes!
+  amount: BigInt!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  timestamp: Int!
+}
