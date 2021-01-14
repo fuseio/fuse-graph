@@ -139,49 +139,6 @@ dataSources:
       file: ./src/mappings/entities.ts
 templates:
   - kind: ethereum/contract
-    name: Token
-    network: fuse
-    source:
-      abi: Token
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      file: ./src/mappings/tokens.ts
-      entities:
-        - Token
-        - TransferEvent
-      abis:
-        - name: Token
-          file: ./abis/Token.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-        - event: Transfer(indexed address,indexed address,uint256,bytes)
-          handler: handleTransferWithData
-        - event: TransferManagerSet(address)
-          handler: handleTransferManagerSet
-  - kind: ethereum/contract
-    name: HomeBridgeErcToErc
-    network: fuse
-    source:
-      abi: HomeBridgeErcToErc
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      file: ./src/mappings/bridge.ts
-      entities:
-        - HomeBridgeErcToErc
-      abis:
-        - name: HomeBridgeErcToErc
-          file: ./abis/HomeBridgeErcToErc.json
-      eventHandlers:
-        - event: UserRequestForSignature(address,uint256,bytes)
-          handler: handleUserRequestForSignature
-        - event: CollectedSignatures(address,bytes32,uint256)
-          handler: handleCollectedSignatures
-  - kind: ethereum/contract
     name: EntitiesList
     network: fuse
     source:

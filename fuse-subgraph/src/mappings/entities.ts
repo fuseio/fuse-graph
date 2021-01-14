@@ -5,7 +5,7 @@ import { Community as CommunityContract } from '../../generated/CommunityFactory
 import { Token, Community, CommunityEntity, EntitiesList } from '../../generated/schema'
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { EntityAdded, EntityRemoved, EntityRolesUpdated } from '../../generated/templates/EntitiesList/EntitiesList'
-import { Token as TokenDataSource, EntitiesList as EntitiesListDataSource } from '../../generated/templates'
+import { EntitiesList as EntitiesListDataSource } from '../../generated/templates'
 import { Address, Bytes } from '@graphprotocol/graph-ts'
 import { log, store } from '@graphprotocol/graph-ts'
 
@@ -111,5 +111,4 @@ export function handleTokenRegistered(event: TokenRegistered): void {
   }
   token.communityAddress = event.params.community
   token.save()
-  TokenDataSource.create(event.params.token)
 }
