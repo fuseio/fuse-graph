@@ -1,7 +1,6 @@
 import {
   BridgeMappingUpdated,
 } from "../../generated/MainnetBridgeMapper/BridgeMapper"
-import { Token as TokenDataSource, HomeBridgeErcToErc as HomeBridgeErcToErcDataSource } from "../../generated/templates"
 import { Token as TokenContract} from "../../generated/templates/Token/Token"
 import { UserRequestForSignature, CollectedSignatures } from "../../generated/templates/HomeBridgeErcToErc/HomeBridgeErcToErc"
 import { BridgeMapping, Token, HomeBridgeErcToErc, CollectedSignaturesEvent, UserRequestForSignatureEvent } from "../../generated/schema"
@@ -30,8 +29,6 @@ export function handleBridgeMappingUpdated(event: BridgeMappingUpdated, originNe
 
   if (entity == null) {
     entity = new BridgeMapping(event.params.key.toHex())
-    TokenDataSource.create(event.params.homeToken)
-    HomeBridgeErcToErcDataSource.create(event.params.homeBridge)
   }
   let homeToken = new Token(event.params.homeToken.toHexString()) as Token
   homeToken.address = event.params.homeToken
